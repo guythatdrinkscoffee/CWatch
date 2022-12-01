@@ -13,6 +13,10 @@
 		BEC594A529386DCC007D68D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEC594A429386DCC007D68D6 /* Assets.xcassets */; };
 		BEC594A829386DCC007D68D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC594A629386DCC007D68D6 /* LaunchScreen.storyboard */; };
 		BEC594B329387024007D68D6 /* CWSearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594B229387024007D68D6 /* CWSearchScreen.swift */; };
+		BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594B5293876D3007D68D6 /* CoinService.swift */; };
+		BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594B9293877E7007D68D6 /* Secrets.swift */; };
+		BEC594BD29388606007D68D6 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594BC29388606007D68D6 /* Response.swift */; };
+		BEC594BF2939283C007D68D6 /* response.json in Resources */ = {isa = PBXBuildFile; fileRef = BEC594BE2939283C007D68D6 /* response.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		BEC594A729386DCC007D68D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BEC594A929386DCC007D68D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEC594B229387024007D68D6 /* CWSearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWSearchScreen.swift; sourceTree = "<group>"; };
+		BEC594B5293876D3007D68D6 /* CoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinService.swift; sourceTree = "<group>"; };
+		BEC594B9293877E7007D68D6 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		BEC594BC29388606007D68D6 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		BEC594BE2939283C007D68D6 /* response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = response.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +48,7 @@
 		BEC5948F29386DCB007D68D6 = {
 			isa = PBXGroup;
 			children = (
+				BEC594BE2939283C007D68D6 /* response.json */,
 				BEC5949A29386DCB007D68D6 /* CWatch */,
 				BEC5949929386DCB007D68D6 /* Products */,
 			);
@@ -56,10 +65,13 @@
 		BEC5949A29386DCB007D68D6 /* CWatch */ = {
 			isa = PBXGroup;
 			children = (
+				BEC594BB293885FE007D68D6 /* Data */,
+				BEC594B4293875DC007D68D6 /* Services */,
 				BEC594B129387003007D68D6 /* Screens */,
 				BEC594B029386EC4007D68D6 /* Support */,
 				BEC594AF29386EBC007D68D6 /* App */,
 				BEC5949F29386DCB007D68D6 /* CTMainTabViewController.swift */,
+				BEC594B9293877E7007D68D6 /* Secrets.swift */,
 			);
 			path = CWatch;
 			sourceTree = "<group>";
@@ -89,6 +101,22 @@
 				BEC594B229387024007D68D6 /* CWSearchScreen.swift */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		BEC594B4293875DC007D68D6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BEC594B5293876D3007D68D6 /* CoinService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BEC594BB293885FE007D68D6 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BEC594BC29388606007D68D6 /* Response.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEC594A829386DCC007D68D6 /* LaunchScreen.storyboard in Resources */,
+				BEC594BF2939283C007D68D6 /* response.json in Resources */,
 				BEC594A529386DCC007D68D6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,9 +191,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEC594A029386DCB007D68D6 /* CTMainTabViewController.swift in Sources */,
+				BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */,
 				BEC5949C29386DCB007D68D6 /* AppDelegate.swift in Sources */,
+				BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */,
 				BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */,
 				BEC594B329387024007D68D6 /* CWSearchScreen.swift in Sources */,
+				BEC594BD29388606007D68D6 /* Response.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

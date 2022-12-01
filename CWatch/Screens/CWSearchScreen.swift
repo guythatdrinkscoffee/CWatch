@@ -6,17 +6,23 @@
 //
 
 import UIKit
-
+import Combine
 class CWSearchScreen: UIViewController {
-
+    // MARK: - Properties
+    let coinServive = CoinService()
+    var pageLimit = 5
+    var page = 1
+    
+    var cancellable: AnyCancellable?
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Configuratin
         configureViewController()
+        
+        print(Response.mockResponse)
     }
-    
-
 }
 
 // MARK: - Configuration
