@@ -37,12 +37,21 @@ struct Coin: Codable {
     }
     
     var sparklineData: [Double] {
-        return sparkline.compactMap({Double($0)})
+        return sparkline.compactMap({ Double($0) })
     }
     
     var iconUrlPNG: String {
         let pngUrl = iconUrl.replacingOccurrences(of: "svg", with: "png")
         return pngUrl
+    }
+    
+    var priceChange: Double {
+        if change.hasPrefix("-"){
+            let changeString = change.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
+            return -1 * (Double(changeString) ?? 0.0)
+        }
+        
+        return Double(change) ?? 0.0
     }
 }
 

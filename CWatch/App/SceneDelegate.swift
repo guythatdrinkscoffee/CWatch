@@ -27,6 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Assign the root view controller
         window?.rootViewController = CTMainTabViewController()
         
+        // Set dark mode by default
+        window?.overrideUserInterfaceStyle = .dark
+        
         // Make the window visible
         window?.makeKeyAndVisible()
     }

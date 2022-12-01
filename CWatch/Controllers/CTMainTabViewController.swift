@@ -27,9 +27,9 @@ private extension CTMainTabViewController {
         ]
     }
     private func configureSearchScreen() -> UINavigationController {
-        let searchScreen = CWSearchScreen()
-        searchScreen.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        searchScreen.title = "Search"
+        let searchScreen = CWMarketScreen()
+        searchScreen.tabBarItem = UITabBarItem(title: "Market", image: UIImage(systemName: "chart.line.uptrend.xyaxis"), tag: 0)
+        searchScreen.title = "Market"
         
         let navController = UINavigationController(rootViewController: searchScreen)
         return navController

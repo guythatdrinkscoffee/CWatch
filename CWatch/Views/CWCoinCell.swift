@@ -7,6 +7,7 @@
 
 import UIKit
 import Charts
+import PINRemoteImage
 
 class CWCoinCell: UITableViewCell {
     // MARK: - Properties
@@ -36,9 +37,16 @@ class CWCoinCell: UITableViewCell {
     private lazy var coinPriceLabel : UILabel = {
         let label = UILabel()
         label.font = .monospacedSystemFont(ofSize: 14, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
         return label
     }()
-    
+
+    private lazy var coinPriceLabelContainer : UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        return view
+    }()
     private lazy var labelStackView : UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [coinNameLabel, coinTickerLabel])
         stackView.axis = .vertical
@@ -47,9 +55,16 @@ class CWCoinCell: UITableViewCell {
         return stackView
     }()
     
+    private lazy var priceLabelsStackView : UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [UIView(),coinPriceLabelContainer, UIView()])
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
     private lazy var rootStackView : UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [labelStackView, sparkLineChart, coinPriceLabel])
-        stackView.distribution = .fill
+        let stackView = UIStackView(arrangedSubviews: [labelStackView, sparkLineChart, priceLabelsStackView])
+        stackView.distribution = .fillEqually
         stackView.spacing = 20
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -109,13 +124,17 @@ class CWCoinCell: UITableViewCell {
         let set = LineChartDataSet(entries: entries)
         set.drawCirclesEnabled = false
         set.lineWidth  = 1.2
-        set.colors = [UIColor.systemGreen]
+        set.colors = [setColor(bool: coin.priceChange > 0.0)]
         
         let dataSet = LineChartData(dataSet: set)
         dataSet.setDrawValues(false)
         
         sparkLineChart.data = dataSet
         sparkLineChart.notifyDataSetChanged()
+    }
+    
+    func setColor(bool: Bool, alpha: CGFloat = 1) -> UIColor {
+        return bool ? UIColor.green.withAlphaComponent(alpha) : UIColor.red.withAlphaComponent(alpha)
     }
 }
 
@@ -127,8 +146,8 @@ extension CWCoinCell {
         coinNameLabel.text = coin.name
         coinTickerLabel.text = coin.symbol
         coinPriceLabel.text = formatter?.string(from: coin.currentPrice as NSNumber)
-        print(coin.iconUrlPNG)
-        
+        coinPriceLabel.textColor = setColor(bool: coin.priceChange > 0.0)
+        coinPriceLabelContainer.backgroundColor = setColor(bool: coin.priceChange > 0.0, alpha: 0.15)
         setData(for: coin)
         
         layoutIfNeeded()
@@ -138,13 +157,20 @@ extension CWCoinCell {
 // MARK: - Layout
 extension CWCoinCell {
     private func layoutViews() {
+        coinPriceLabelContainer.addSubview(coinPriceLabel)
+        
         contentView.addSubview(rootStackView)
         
         NSLayoutConstraint.activate([
             rootStackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
             rootStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
-            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: rootStackView.trailingAnchor, multiplier: 1),
-            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: rootStackView.bottomAnchor, multiplier: 1)
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: rootStackView.trailingAnchor, multiplier: 1.2),
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: rootStackView.bottomAnchor, multiplier: 1),
+            
+            coinPriceLabel.topAnchor.constraint(equalTo: coinPriceLabelContainer.topAnchor, constant: 6),
+            coinPriceLabel.leadingAnchor.constraint(equalTo: coinPriceLabelContainer.leadingAnchor),
+            coinPriceLabel.trailingAnchor.constraint(equalTo: coinPriceLabelContainer.trailingAnchor),
+            coinPriceLabel.bottomAnchor.constraint(equalTo: coinPriceLabelContainer.bottomAnchor, constant: -6)
         ])
     }
 }

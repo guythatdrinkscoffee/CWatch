@@ -7,7 +7,7 @@
 
 import UIKit
 import Combine
-class CWSearchScreen: UIViewController {
+class CWMarketScreen: UIViewController {
     // MARK: - Properties
     let coinServive = CoinService()
     var pageLimit = 5
@@ -22,6 +22,7 @@ class CWSearchScreen: UIViewController {
         formatter.numberStyle = .currency
         return formatter
     }()
+    
     // MARK: -  UI
     private lazy var coinsTableView : UITableView = {
         let tableView = UITableView(frame: view.bounds)
@@ -49,26 +50,26 @@ class CWSearchScreen: UIViewController {
 }
 
 // MARK: - Configuration
-private extension CWSearchScreen {
+private extension CWMarketScreen {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
     }
 }
 
 // MARK: - Layout
-private extension CWSearchScreen {
+private extension CWMarketScreen {
     private func layoutViews() {
         view.addSubview(coinsTableView)
     }
 }
 
 // MARK: - UITableViewDelegate
-extension CWSearchScreen: UITableViewDelegate {
- 
+extension CWMarketScreen: UITableViewDelegate {
+    
 }
 
 // MARK: - UITableViewDataSource
-extension CWSearchScreen: UITableViewDataSource {
+extension CWMarketScreen: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return coins?.count ?? 0
     }
