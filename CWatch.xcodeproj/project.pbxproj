@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5EC3FCDC73CAE6146BD3A459 /* Pods_CWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E59534E05363A78699F6B6DF /* Pods_CWatch.framework */; };
+		BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */; };
 		BEC5949C29386DCB007D68D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC5949B29386DCB007D68D6 /* AppDelegate.swift */; };
 		BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC5949D29386DCB007D68D6 /* SceneDelegate.swift */; };
 		BEC594A029386DCB007D68D6 /* CTMainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC5949F29386DCB007D68D6 /* CTMainTabViewController.swift */; };
@@ -17,9 +19,13 @@
 		BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594B9293877E7007D68D6 /* Secrets.swift */; };
 		BEC594BD29388606007D68D6 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594BC29388606007D68D6 /* Response.swift */; };
 		BEC594BF2939283C007D68D6 /* response.json in Resources */ = {isa = PBXBuildFile; fileRef = BEC594BE2939283C007D68D6 /* response.json */; };
+		BEC594C229392E0E007D68D6 /* CWCoinCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594C129392E0E007D68D6 /* CWCoinCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		69DA7F3670DD8DCFA3A5D00C /* Pods-CWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CWatch.release.xcconfig"; path = "Target Support Files/Pods-CWatch/Pods-CWatch.release.xcconfig"; sourceTree = "<group>"; };
+		A159733097E29C927E1FF722 /* Pods-CWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CWatch.debug.xcconfig"; path = "Target Support Files/Pods-CWatch/Pods-CWatch.debug.xcconfig"; sourceTree = "<group>"; };
+		BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWPaddedLabel.swift; sourceTree = "<group>"; };
 		BEC5949829386DCB007D68D6 /* CWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEC5949B29386DCB007D68D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEC5949D29386DCB007D68D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +38,8 @@
 		BEC594B9293877E7007D68D6 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		BEC594BC29388606007D68D6 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		BEC594BE2939283C007D68D6 /* response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = response.json; sourceTree = "<group>"; };
+		BEC594C129392E0E007D68D6 /* CWCoinCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinCell.swift; sourceTree = "<group>"; };
+		E59534E05363A78699F6B6DF /* Pods_CWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,18 +47,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EC3FCDC73CAE6146BD3A459 /* Pods_CWatch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D3DFE5D3D640EA3B88908AE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A159733097E29C927E1FF722 /* Pods-CWatch.debug.xcconfig */,
+				69DA7F3670DD8DCFA3A5D00C /* Pods-CWatch.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		BEC5948F29386DCB007D68D6 = {
 			isa = PBXGroup;
 			children = (
-				BEC594BE2939283C007D68D6 /* response.json */,
 				BEC5949A29386DCB007D68D6 /* CWatch */,
 				BEC5949929386DCB007D68D6 /* Products */,
+				7D3DFE5D3D640EA3B88908AE /* Pods */,
+				E5CCED65405A38A0AB843825 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,6 +84,7 @@
 		BEC5949A29386DCB007D68D6 /* CWatch */ = {
 			isa = PBXGroup;
 			children = (
+				BEC594C029392DEE007D68D6 /* Views */,
 				BEC594BB293885FE007D68D6 /* Data */,
 				BEC594B4293875DC007D68D6 /* Services */,
 				BEC594B129387003007D68D6 /* Screens */,
@@ -88,6 +108,7 @@
 		BEC594B029386EC4007D68D6 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				BEC594BE2939283C007D68D6 /* response.json */,
 				BEC594A429386DCC007D68D6 /* Assets.xcassets */,
 				BEC594A629386DCC007D68D6 /* LaunchScreen.storyboard */,
 				BEC594A929386DCC007D68D6 /* Info.plist */,
@@ -119,6 +140,23 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		BEC594C029392DEE007D68D6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BEC594C129392E0E007D68D6 /* CWCoinCell.swift */,
+				BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E5CCED65405A38A0AB843825 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E59534E05363A78699F6B6DF /* Pods_CWatch.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +164,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BEC594AC29386DCC007D68D6 /* Build configuration list for PBXNativeTarget "CWatch" */;
 			buildPhases = (
+				030D3BD9009E4014ECCFCE70 /* [CP] Check Pods Manifest.lock */,
 				BEC5949429386DCB007D68D6 /* Sources */,
 				BEC5949529386DCB007D68D6 /* Frameworks */,
 				BEC5949629386DCB007D68D6 /* Resources */,
+				7C33269C94BBB2CA20C14D72 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -185,6 +225,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		030D3BD9009E4014ECCFCE70 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CWatch-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C33269C94BBB2CA20C14D72 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CWatch/Pods-CWatch-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CWatch/Pods-CWatch-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CWatch/Pods-CWatch-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BEC5949429386DCB007D68D6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -196,6 +278,8 @@
 				BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */,
 				BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */,
 				BEC594B329387024007D68D6 /* CWSearchScreen.swift in Sources */,
+				BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */,
+				BEC594C229392E0E007D68D6 /* CWCoinCell.swift in Sources */,
 				BEC594BD29388606007D68D6 /* Response.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +414,7 @@
 		};
 		BEC594AD29386DCC007D68D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A159733097E29C927E1FF722 /* Pods-CWatch.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -342,6 +427,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -357,6 +443,7 @@
 		};
 		BEC594AE29386DCC007D68D6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69DA7F3670DD8DCFA3A5D00C /* Pods-CWatch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -369,6 +456,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

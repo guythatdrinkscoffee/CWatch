@@ -1,4 +1,4 @@
-//
+//d
 //  Response.swift
 //  CWatch
 //
@@ -29,7 +29,21 @@ struct Coin: Codable {
     let iconUrl: String
     let marketCap: String
     let price: String
+    let change: String
     let sparkline: [String]
+    
+    var currentPrice: Double {
+        return Double(price) ?? 0.0
+    }
+    
+    var sparklineData: [Double] {
+        return sparkline.compactMap({Double($0)})
+    }
+    
+    var iconUrlPNG: String {
+        let pngUrl = iconUrl.replacingOccurrences(of: "svg", with: "png")
+        return pngUrl
+    }
 }
 
 extension Response {
