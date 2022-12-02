@@ -36,7 +36,7 @@ class CWCoinCell: UITableViewCell {
     
     private lazy var coinPriceLabel : UILabel = {
         let label = UILabel()
-        label.font = .monospacedSystemFont(ofSize: 14, weight: .semibold)
+        label.font = .monospacedSystemFont(ofSize: 14, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
@@ -47,6 +47,7 @@ class CWCoinCell: UITableViewCell {
         view.layer.cornerRadius = 8
         return view
     }()
+    
     private lazy var labelStackView : UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [coinNameLabel, coinTickerLabel])
         stackView.axis = .vertical

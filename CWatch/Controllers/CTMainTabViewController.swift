@@ -15,17 +15,18 @@ class CTMainTabViewController: UITabBarController {
         // Configuration
         configureScreens()
     }
-
-
 }
 
 // MARK: - Configuration
 private extension CTMainTabViewController {
     private func configureScreens () {
+        tabBar.tintColor = .white
+        
         viewControllers = [
             configureSearchScreen()
         ]
     }
+    
     private func configureSearchScreen() -> UINavigationController {
         let searchScreen = CWMarketScreen()
         searchScreen.tabBarItem = UITabBarItem(title: "Market", image: UIImage(systemName: "chart.line.uptrend.xyaxis"), tag: 0)

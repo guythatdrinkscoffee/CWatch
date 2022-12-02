@@ -30,14 +30,16 @@ struct Coin: Codable {
     let marketCap: String
     let price: String
     let change: String
-    let sparkline: [String]
+    let sparkline: [String?]
     
     var currentPrice: Double {
         return Double(price) ?? 0.0
     }
     
     var sparklineData: [Double] {
-        return sparkline.compactMap({ Double($0) })
+        return sparkline.compactMap { str in
+            return Double(str ?? " ")
+        }
     }
     
     var iconUrlPNG: String {
