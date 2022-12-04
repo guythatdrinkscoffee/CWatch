@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		5EC3FCDC73CAE6146BD3A459 /* Pods_CWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E59534E05363A78699F6B6DF /* Pods_CWatch.framework */; };
 		BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */; };
+		BE8CB71E29398B8800A1BCAA /* CWCoinDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */; };
+		BE8CB7202939B76700A1BCAA /* HistoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */; };
+		BE8CB7222939BBE600A1BCAA /* coinhistory.json in Resources */ = {isa = PBXBuildFile; fileRef = BE8CB7212939BBE600A1BCAA /* coinhistory.json */; };
 		BEC5949C29386DCB007D68D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC5949B29386DCB007D68D6 /* AppDelegate.swift */; };
 		BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC5949D29386DCB007D68D6 /* SceneDelegate.swift */; };
 		BEC594A029386DCB007D68D6 /* CTMainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC5949F29386DCB007D68D6 /* CTMainTabViewController.swift */; };
@@ -17,15 +20,20 @@
 		BEC594B329387024007D68D6 /* CWMarketScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594B229387024007D68D6 /* CWMarketScreen.swift */; };
 		BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594B5293876D3007D68D6 /* CoinService.swift */; };
 		BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594B9293877E7007D68D6 /* Secrets.swift */; };
-		BEC594BD29388606007D68D6 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594BC29388606007D68D6 /* Response.swift */; };
+		BEC594BD29388606007D68D6 /* CoinResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594BC29388606007D68D6 /* CoinResponse.swift */; };
 		BEC594BF2939283C007D68D6 /* response.json in Resources */ = {isa = PBXBuildFile; fileRef = BEC594BE2939283C007D68D6 /* response.json */; };
 		BEC594C229392E0E007D68D6 /* CWCoinCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594C129392E0E007D68D6 /* CWCoinCell.swift */; };
+		BEC8639E293BF58000A5BD12 /* CWCoinHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC8639D293BF58000A5BD12 /* CWCoinHeaderView.swift */; };
+		BEC863A0293C3CD000A5BD12 /* coinresponse.json in Resources */ = {isa = PBXBuildFile; fileRef = BEC8639F293C3CD000A5BD12 /* coinresponse.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		69DA7F3670DD8DCFA3A5D00C /* Pods-CWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CWatch.release.xcconfig"; path = "Target Support Files/Pods-CWatch/Pods-CWatch.release.xcconfig"; sourceTree = "<group>"; };
 		A159733097E29C927E1FF722 /* Pods-CWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CWatch.debug.xcconfig"; path = "Target Support Files/Pods-CWatch/Pods-CWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWPaddedLabel.swift; sourceTree = "<group>"; };
+		BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinDetailScreen.swift; sourceTree = "<group>"; };
+		BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryResponse.swift; sourceTree = "<group>"; };
+		BE8CB7212939BBE600A1BCAA /* coinhistory.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = coinhistory.json; sourceTree = "<group>"; };
 		BEC5949829386DCB007D68D6 /* CWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEC5949B29386DCB007D68D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEC5949D29386DCB007D68D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -36,9 +44,11 @@
 		BEC594B229387024007D68D6 /* CWMarketScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWMarketScreen.swift; sourceTree = "<group>"; };
 		BEC594B5293876D3007D68D6 /* CoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinService.swift; sourceTree = "<group>"; };
 		BEC594B9293877E7007D68D6 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
-		BEC594BC29388606007D68D6 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		BEC594BC29388606007D68D6 /* CoinResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinResponse.swift; sourceTree = "<group>"; };
 		BEC594BE2939283C007D68D6 /* response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = response.json; sourceTree = "<group>"; };
 		BEC594C129392E0E007D68D6 /* CWCoinCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinCell.swift; sourceTree = "<group>"; };
+		BEC8639D293BF58000A5BD12 /* CWCoinHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinHeaderView.swift; sourceTree = "<group>"; };
+		BEC8639F293C3CD000A5BD12 /* coinresponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = coinresponse.json; sourceTree = "<group>"; };
 		E59534E05363A78699F6B6DF /* Pods_CWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -119,6 +129,8 @@
 				BEC594A429386DCC007D68D6 /* Assets.xcassets */,
 				BEC594A629386DCC007D68D6 /* LaunchScreen.storyboard */,
 				BEC594A929386DCC007D68D6 /* Info.plist */,
+				BE8CB7212939BBE600A1BCAA /* coinhistory.json */,
+				BEC8639F293C3CD000A5BD12 /* coinresponse.json */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -127,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				BEC594B229387024007D68D6 /* CWMarketScreen.swift */,
+				BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -143,7 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				BEC594B9293877E7007D68D6 /* Secrets.swift */,
-				BEC594BC29388606007D68D6 /* Response.swift */,
+				BEC594BC29388606007D68D6 /* CoinResponse.swift */,
+				BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -153,6 +167,7 @@
 			children = (
 				BEC594C129392E0E007D68D6 /* CWCoinCell.swift */,
 				BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */,
+				BEC8639D293BF58000A5BD12 /* CWCoinHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -226,8 +241,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEC594A829386DCC007D68D6 /* LaunchScreen.storyboard in Resources */,
+				BEC863A0293C3CD000A5BD12 /* coinresponse.json in Resources */,
 				BEC594BF2939283C007D68D6 /* response.json in Resources */,
 				BEC594A529386DCC007D68D6 /* Assets.xcassets in Resources */,
+				BE8CB7222939BBE600A1BCAA /* coinhistory.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,11 +301,14 @@
 				BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */,
 				BEC5949C29386DCB007D68D6 /* AppDelegate.swift in Sources */,
 				BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */,
+				BEC8639E293BF58000A5BD12 /* CWCoinHeaderView.swift in Sources */,
 				BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */,
+				BE8CB7202939B76700A1BCAA /* HistoryResponse.swift in Sources */,
 				BEC594B329387024007D68D6 /* CWMarketScreen.swift in Sources */,
 				BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */,
 				BEC594C229392E0E007D68D6 /* CWCoinCell.swift in Sources */,
-				BEC594BD29388606007D68D6 /* Response.swift in Sources */,
+				BEC594BD29388606007D68D6 /* CoinResponse.swift in Sources */,
+				BE8CB71E29398B8800A1BCAA /* CWCoinDetailScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,12 +8,17 @@
 import Foundation
 import Combine
 
-enum TimePeriod: String {
+enum TimePeriod: String, CaseIterable{
+    case now = "3h"
     case twentyFourHours = "24h"
+    case oneWeek = "7d"
+    case oneYear = "1y"
+    case threeYears = "3y"
+    case fiveYears = "5y"
 }
 
 struct CoinService {
-    func getCoins(endpoint: Endpoint) -> Future<Response,Error> {
+    func getCoins(endpoint: Endpoint) -> Future<CoinResponse,Error> {
         Future { promise in
             guard let url = endpoint.url else {
                 return promise(.failure(URLError(.badURL)))
@@ -29,7 +34,7 @@ struct CoinService {
                 let decoder = JSONDecoder()
                 
                 do {
-                    let response = try decoder.decode(Response.self, from: data)
+                    let response = try decoder.decode(CoinResponse.self, from: data)
                     promise(.success(response))
                 } catch {
                     promise(.failure(error))
@@ -38,6 +43,60 @@ struct CoinService {
             }.resume()
         }
     }
+    
+    func getCoinHistory(endpoint: Endpoint) -> Future<HistoryResponse, Error> {
+        Future { promise in
+            guard let url = endpoint.url else {
+                return promise(.failure(URLError(.badURL)))
+            }
+            
+            let request = buildRequestWithHeaders(for: url)
+            
+            URLSession.shared.dataTask(with: request) { data, res, err in
+                guard err == nil, let data = data, let res = res as? HTTPURLResponse, res.statusCode == 200 else {
+                    return promise(.failure(URLError(.badServerResponse)))
+                }
+                
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
+                print(String(data: data, encoding: .utf8)!)
+                do {
+                    let history = try decoder.decode(HistoryResponse.self, from: data)
+                    promise(.success(history))
+                } catch {
+                    promise(.failure(error))
+                    print(error)
+                }
+            }.resume()
+        }
+    }
+    
+    func getCoin(endpoint: Endpoint) -> Future<CoinResponse, Error> {
+        Future { promise in
+            guard let url = endpoint.url else {
+                return promise(.failure(URLError(.badURL)))
+            }
+            
+            let request = buildRequestWithHeaders(for: url)
+            
+            URLSession.shared.dataTask(with: request) { data, res, err in
+                guard err == nil, let data = data,  let res = res as? HTTPURLResponse, res.statusCode == 200 else {
+                    return promise(.failure(URLError(.badServerResponse)))
+                }
+                
+                let decoder = JSONDecoder()
+                
+                do {
+                    let response = try decoder.decode(CoinResponse.self, from: data)
+                    promise(.success(response))
+                } catch {
+                    promise(.failure(error))
+                    print(error)
+                }
+            }.resume()
+        }
+    }
+    
     
     private func buildRequestWithHeaders(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
@@ -74,6 +133,30 @@ struct Endpoint {
                 URLQueryItem(name: "timePeriod", value: timePeriod.rawValue),
                 URLQueryItem(name: "limit", value: String(limit)),
                 URLQueryItem(name: "offset", value: String((page - 1) * limit)),
+                URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
+            ])
+    }
+    
+    static func coin(
+        for uuid: String,
+        currencyRef: String = "yhjMzLPhuIDl"
+    ) -> Endpoint {
+        return Endpoint(
+            path: "/coin/\(uuid)",
+            queryItems: [
+                URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
+            ])
+    }
+    
+    static func history(
+        for uuid: String,
+        with timePeriod: TimePeriod,
+        currencyRef: String = "yhjMzLPhuIDl"
+    ) -> Endpoint {
+        return Endpoint(
+            path: "/coin/\(uuid)/history",
+            queryItems: [
+                URLQueryItem(name: "timePeriod", value: timePeriod.rawValue),
                 URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
             ])
     }

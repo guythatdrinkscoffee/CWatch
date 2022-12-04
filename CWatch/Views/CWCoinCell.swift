@@ -112,13 +112,9 @@ class CWCoinCell: UITableViewCell {
     
     func setData(for coin: Coin) {
         var entries: [ChartDataEntry] = []
-        var time = 0.0
-        
-        sparkLineChart.xAxis.axisLineColor = .systemGreen
-        
-        for value in coin.sparklineData{
-            let entry = ChartDataEntry(x: time, y: value)
-            time += 1
+    
+        for i in 0..<coin.sparklineData.count {
+            let entry = ChartDataEntry(x: Double(i), y: coin.sparklineData[i])
             entries.append(entry)
         }
         

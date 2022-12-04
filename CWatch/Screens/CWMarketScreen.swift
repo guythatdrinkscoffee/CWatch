@@ -19,6 +19,9 @@ class CWMarketScreen: UIViewController {
             coinsTableView.reloadData()
         }
     }
+    
+//    var coins = CoinResponse.coinsReponse!.data.coins!
+    
     private lazy var numberFormatter : NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -35,6 +38,7 @@ class CWMarketScreen: UIViewController {
         tableView.bounces = false
         return tableView
     }()
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -54,6 +58,7 @@ private extension CWMarketScreen {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        navigationItem.backButtonTitle = ""
     }
 }
 
@@ -76,20 +81,32 @@ private extension CWMarketScreen {
                 switch completion {
                 case .failure(let error) : print(error)
                 case .finished:
+                    // Set isFetching to false to allow further fetching.
                     self.isFetching = false
+                    
+                    // Increase the page count to ensure the offset calculation is correct.
                     self.page += 1
                 }
             } receiveValue: { response in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                    self.coins.append(contentsOf: response.data.coins)
-                }
+                self.coins.append(contentsOf: response.data.coins ?? [])
             }
     }
 }
 
 // MARK: - UITableViewDelegate
 extension CWMarketScreen: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // Get a reference to the selected coin
+        let selectedCoin = coins[indexPath.row]
+        
+        // Navigate to the coin detail screen
+        let coinDetailScreen = CWCoinDetailScreen(coin: selectedCoin)
+        
+        // Navigate to the detail screen
+        navigationController?.pushViewController(coinDetailScreen, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
