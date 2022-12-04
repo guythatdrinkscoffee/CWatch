@@ -165,7 +165,7 @@ private extension CWCoinDetailScreen {
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: scrollView.trailingAnchor, multiplier: 1),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
