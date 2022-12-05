@@ -25,6 +25,7 @@
 		BEC594C229392E0E007D68D6 /* CWCoinCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC594C129392E0E007D68D6 /* CWCoinCell.swift */; };
 		BEC8639E293BF58000A5BD12 /* CWCoinHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC8639D293BF58000A5BD12 /* CWCoinHeaderView.swift */; };
 		BEC863A0293C3CD000A5BD12 /* coinresponse.json in Resources */ = {isa = PBXBuildFile; fileRef = BEC8639F293C3CD000A5BD12 /* coinresponse.json */; };
+		BEC863A2293D1D1600A5BD12 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC863A1293D1D1600A5BD12 /* Endpoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		BEC594C129392E0E007D68D6 /* CWCoinCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinCell.swift; sourceTree = "<group>"; };
 		BEC8639D293BF58000A5BD12 /* CWCoinHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinHeaderView.swift; sourceTree = "<group>"; };
 		BEC8639F293C3CD000A5BD12 /* coinresponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = coinresponse.json; sourceTree = "<group>"; };
+		BEC863A1293D1D1600A5BD12 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		E59534E05363A78699F6B6DF /* Pods_CWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -158,6 +160,7 @@
 				BEC594B9293877E7007D68D6 /* Secrets.swift */,
 				BEC594BC29388606007D68D6 /* CoinResponse.swift */,
 				BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */,
+				BEC863A1293D1D1600A5BD12 /* Endpoint.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				BEC594A029386DCB007D68D6 /* CTMainTabViewController.swift in Sources */,
 				BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */,
 				BEC5949C29386DCB007D68D6 /* AppDelegate.swift in Sources */,
+				BEC863A2293D1D1600A5BD12 /* Endpoint.swift in Sources */,
 				BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */,
 				BEC8639E293BF58000A5BD12 /* CWCoinHeaderView.swift in Sources */,
 				BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */,

@@ -16,11 +16,11 @@ class CWCoinDetailScreen: UIViewController {
             configure(for: coin)
         }
     }
-    var coinService = CoinService()
     var coinCancellable: AnyCancellable?
     var historyCancellable: AnyCancellable?
     var history: [TimePeriod: HistoryResponse] = [:]
-    
+    var coinService: CoinService = CoinService()
+
     // MARK: - UI
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -266,7 +266,7 @@ private extension CWCoinDetailScreen {
     
     private func configure(for coin: Coin?){
         guard let coin = coin else { return }
-            print(coin)
+        
         coinHeader.configure(for: coin)
         aboutLabel.text = "About \(coin.name)"
         

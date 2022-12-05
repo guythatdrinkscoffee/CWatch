@@ -13,7 +13,7 @@ enum TimePeriod: String, CaseIterable{
     case twentyFourHours = "24h"
     case oneWeek = "7d"
     case oneYear = "1y"
-    case threeYears = "3y"
+    case threeYears = "3y" 
     case fiveYears = "5y"
 }
 
@@ -59,7 +59,7 @@ struct CoinService {
                 
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .secondsSince1970
-                print(String(data: data, encoding: .utf8)!)
+            
                 do {
                     let history = try decoder.decode(HistoryResponse.self, from: data)
                     promise(.success(history))
@@ -104,60 +104,5 @@ struct CoinService {
         request.setValue(Secrets.apiHost, forHTTPHeaderField: "X-RapidAPI-Host")
         request.setValue("Content-Type", forHTTPHeaderField: "application/json")
         return request
-    }
-}
-
-struct Endpoint {
-    let path: String
-    let queryItems: [URLQueryItem]
-    
-    var url: URL? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "coinranking1.p.rapidapi.com"
-        components.path = path
-        components.queryItems = queryItems
-        
-        return components.url
-    }
-    
-    static func coins(
-        for timePeriod: TimePeriod,
-        limit: Int,
-        page: Int,
-        currencyRef: String = "yhjMzLPhuIDl"
-    ) -> Endpoint {
-        return Endpoint(
-            path: "/coins",
-            queryItems: [
-                URLQueryItem(name: "timePeriod", value: timePeriod.rawValue),
-                URLQueryItem(name: "limit", value: String(limit)),
-                URLQueryItem(name: "offset", value: String((page - 1) * limit)),
-                URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
-            ])
-    }
-    
-    static func coin(
-        for uuid: String,
-        currencyRef: String = "yhjMzLPhuIDl"
-    ) -> Endpoint {
-        return Endpoint(
-            path: "/coin/\(uuid)",
-            queryItems: [
-                URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
-            ])
-    }
-    
-    static func history(
-        for uuid: String,
-        with timePeriod: TimePeriod,
-        currencyRef: String = "yhjMzLPhuIDl"
-    ) -> Endpoint {
-        return Endpoint(
-            path: "/coin/\(uuid)/history",
-            queryItems: [
-                URLQueryItem(name: "timePeriod", value: timePeriod.rawValue),
-                URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
-            ])
     }
 }
