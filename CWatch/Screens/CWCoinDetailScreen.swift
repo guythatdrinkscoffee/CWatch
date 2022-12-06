@@ -20,7 +20,6 @@ class CWCoinDetailScreen: UIViewController {
     var historyCancellable: AnyCancellable?
     var history: [TimePeriod: HistoryResponse] = [:]
     var coinService: CoinService = CoinService()
-
     // MARK: - UI
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -112,6 +111,8 @@ class CWCoinDetailScreen: UIViewController {
         
         // Layout
         layoutViews()
+        
+        // Start animating the indicator
         activityIndicator.startAnimating()
     }
     
@@ -221,6 +222,7 @@ private extension CWCoinDetailScreen {
         dataSet.drawCirclesEnabled = false
         dataSet.lineWidth = 1.5
         dataSet.mode = .cubicBezier
+        dataSet.colors = [.systemTeal]
         
         let chartData = LineChartData(dataSet: dataSet)
         
@@ -273,6 +275,8 @@ private extension CWCoinDetailScreen {
   
         if let description = coin.description, let fixedString = String(htmlEncodedString: description) {
             bodyLabel.text = fixedString
+        } else {
+            bodyLabel.text =  "No information about \(coin.name) is available."
         }
     }
     
@@ -288,7 +292,12 @@ private extension CWCoinDetailScreen {
     
     @objc
     private func moreButtonSelected(_ sender: UIButton) {
-  
+        guard let coin = coin else { return }
+        
+        let aboutScreen = CWCoinAboutScreen(coin: coin)
+        
+        navigationItem.backButtonTitle = coin.symbol
+        navigationController?.pushViewController(aboutScreen, animated: true)
     }
 }
 

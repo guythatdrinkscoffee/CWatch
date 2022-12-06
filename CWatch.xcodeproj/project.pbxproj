@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5EC3FCDC73CAE6146BD3A459 /* Pods_CWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E59534E05363A78699F6B6DF /* Pods_CWatch.framework */; };
+		BE038701293E92FA0051128D /* CWCoinAboutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE038700293E92FA0051128D /* CWCoinAboutScreen.swift */; };
 		BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */; };
 		BE8CB71E29398B8800A1BCAA /* CWCoinDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */; };
 		BE8CB7202939B76700A1BCAA /* HistoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		69DA7F3670DD8DCFA3A5D00C /* Pods-CWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CWatch.release.xcconfig"; path = "Target Support Files/Pods-CWatch/Pods-CWatch.release.xcconfig"; sourceTree = "<group>"; };
 		A159733097E29C927E1FF722 /* Pods-CWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CWatch.debug.xcconfig"; path = "Target Support Files/Pods-CWatch/Pods-CWatch.debug.xcconfig"; sourceTree = "<group>"; };
+		BE038700293E92FA0051128D /* CWCoinAboutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinAboutScreen.swift; sourceTree = "<group>"; };
 		BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWPaddedLabel.swift; sourceTree = "<group>"; };
 		BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinDetailScreen.swift; sourceTree = "<group>"; };
 		BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryResponse.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			children = (
 				BEC594B229387024007D68D6 /* CWMarketScreen.swift */,
 				BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */,
+				BE038700293E92FA0051128D /* CWCoinAboutScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */,
 				BEC5949C29386DCB007D68D6 /* AppDelegate.swift in Sources */,
 				BEC863A2293D1D1600A5BD12 /* Endpoint.swift in Sources */,
+				BE038701293E92FA0051128D /* CWCoinAboutScreen.swift in Sources */,
 				BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */,
 				BEC8639E293BF58000A5BD12 /* CWCoinHeaderView.swift in Sources */,
 				BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */,
@@ -455,6 +459,7 @@
 				DEVELOPMENT_TEAM = 7QBR6L4T36;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Coin Watch";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -484,6 +489,7 @@
 				DEVELOPMENT_TEAM = 7QBR6L4T36;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Coin Watch";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

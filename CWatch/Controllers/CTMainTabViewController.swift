@@ -20,7 +20,7 @@ class CTMainTabViewController: UITabBarController {
 // MARK: - Configuration
 private extension CTMainTabViewController {
     private func configureScreens () {
-        tabBar.tintColor = .white
+        tabBar.tintColor = .label
         
         viewControllers = [
             configureSearchScreen()
