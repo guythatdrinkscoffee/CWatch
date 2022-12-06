@@ -109,29 +109,10 @@ class CWCoinHeaderView: UIView {
     }
 }
 
-#if canImport(SwiftUI) && DEBUG
-struct UIViewPreview<View: UIView>: UIViewRepresentable {
-    let view: View
-    
-    init(_ builder: @escaping () -> View) {
-        view = builder()
-    }
-    
-    func makeUIView(context: Context) -> some UIView {
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        view.setContentHuggingPriority(.defaultHigh, for: .vertical)
-    }
-}
-#endif
-
 struct CWCoinHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         UIViewPreview {
-            let coin = CoinResponse.coinsReponse?.data.coins![2]
+            let coin = CoinResponse.coinsResponse?.data.coins![2]
             let headerView = CWCoinHeaderView(coin)
             return headerView
         }

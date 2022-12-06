@@ -14,7 +14,8 @@ class CWCoinAboutScreen: UIViewController {
     
     // MARK: -  UI
     private lazy var textView : UITextView  = {
-        let textView = UITextView(frame: view.bounds)
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
         return textView
     }()
@@ -48,7 +49,7 @@ class CWCoinAboutScreen: UIViewController {
 extension CWCoinAboutScreen {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
-        title = "About \(coin.name)"
+        title = "About \(coin.symbol)"
     }
 }
 
@@ -56,6 +57,13 @@ extension CWCoinAboutScreen {
 extension CWCoinAboutScreen {
     private func layoutViews() {
         view.addSubview(textView)
+        
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }
 

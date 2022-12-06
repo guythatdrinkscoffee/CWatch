@@ -40,6 +40,7 @@ struct Coin: Decodable {
     let numberOfExchanges: Int?
     let description: String?
     let allTimeHigh: AllTimeHigh?
+    let supply: Supply?
     
     var currentPrice: Double {
         return Double(price) ?? 0.0
@@ -69,44 +70,26 @@ struct Coin: Decodable {
 struct AllTimeHigh: Decodable {
     let price: String?
     let timestamp: TimeInterval
+    
+    var date: Date {
+        return Date(timeIntervalSince1970: timestamp)
+    }
 }
 
-extension CoinResponse {
-    static var coinsReponse : CoinResponse? {
-        guard let filePathUrl = Bundle.main.url(forResource: "response", withExtension: "json") else {
-            return nil
-        }
-        
-        let responseData = try?  Data(contentsOf: filePathUrl)
-        
-        do {
-            if let responseData {
-                let response = try JSONDecoder().decode(CoinResponse.self, from: responseData)
-                return response
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        return nil
-    }
+struct Supply: Decodable {
+    let max: String?
+    let supplyAt: Int?
+    let total: String? 
+    let circulating: String?
     
-    static var coinReponse : CoinResponse? {
-        guard let filePathUrl = Bundle.main.url(forResource: "coinresponse", withExtension: "json") else {
-            return nil
+    var exhaustedSupplyPercentage: Double {
+        if let maxString = max,
+           let circulatingString = total,
+           let max = Double(maxString),
+           let circulating = Double(circulatingString) {
+            return circulating / max
         }
         
-        let responseData = try?  Data(contentsOf: filePathUrl)
-        
-        do {
-            if let responseData {
-                let response = try JSONDecoder().decode(CoinResponse.self, from: responseData)
-                return response
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        return nil
+        return 0.0
     }
 }

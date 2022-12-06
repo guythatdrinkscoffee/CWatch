@@ -20,11 +20,19 @@ class CWCoinDetailScreen: UIViewController {
     var historyCancellable: AnyCancellable?
     var history: [TimePeriod: HistoryResponse] = [:]
     var coinService: CoinService = CoinService()
+    
+    private lazy var numberFormatter : NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 1
+        return numberFormatter
+    }()
+    
     // MARK: - UI
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.isHidden = true
+        
         return scrollView
     }()
     
@@ -80,6 +88,13 @@ class CWCoinDetailScreen: UIViewController {
         return label
     }()
     
+    private lazy var statsLabel : UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.text = "Stats"
+        return label
+    }()
+    
     private lazy var bodyLabel : UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
@@ -93,14 +108,24 @@ class CWCoinDetailScreen: UIViewController {
         button.titleLabel?.font = .preferredFont(forTextStyle: .headline)
         button.setTitle("More", for: .normal)
         button.addTarget(self, action: #selector(moreButtonSelected(_:)), for: .touchUpInside)
+        button.contentHorizontalAlignment = .left
         return button
     }()
+    
     private lazy var aboutStackView : UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [aboutLabel, bodyLabel, moreButton])
-        stackView.spacing = 5
+        let stackView = UIStackView(
+            arrangedSubviews: [
+                aboutLabel,
+                bodyLabel,
+                moreButton,
+                statsLabel
+            ])
+        stackView.spacing = 12
         stackView.axis = .vertical
-        stackView.alignment = .leading
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fill
+        stackView.insertSpacer(at: 0)
+        stackView.insertSpacer(at: 4)
         return stackView
     }()
     
@@ -128,13 +153,10 @@ class CWCoinDetailScreen: UIViewController {
         
         // Fetch the coin information
         fetchCoin()
-
+        
         // Fetch the coin price history starting with the 3h endpoint.
         fetchHistoryForTimePeriod(timePeriod: .now)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        
     }
 }
 
@@ -144,6 +166,7 @@ private extension CWCoinDetailScreen {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
+        navigationItem.backButtonDisplayMode = .minimal
     }
 }
 
@@ -187,16 +210,11 @@ private extension CWCoinDetailScreen {
             timePeriodSelector.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             timePeriodSelector.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
             
-            seperator.topAnchor.constraint(equalTo: timePeriodSelector.bottomAnchor, constant: 20),
-            seperator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            seperator.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            seperator.heightAnchor.constraint(equalToConstant: 1),
+            aboutStackView.topAnchor.constraint(equalTo: timePeriodSelector.bottomAnchor, constant: 15),
+            aboutStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.2),
+            aboutStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             
-            aboutStackView.topAnchor.constraint(equalTo: seperator.bottomAnchor, constant: 15),
-            aboutStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
-            aboutStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
-            contentView.heightAnchor.constraint(equalToConstant: 1000),
+            contentView.heightAnchor.constraint(equalToConstant: 1050),
         ])
     }
 }
@@ -267,16 +285,55 @@ private extension CWCoinDetailScreen {
     }
     
     private func configure(for coin: Coin?){
-        guard let coin = coin else { return }
         
+        guard let coin = coin else { return }
+
         coinHeader.configure(for: coin)
         aboutLabel.text = "About \(coin.name)"
         
-  
         if let description = coin.description, let fixedString = String(htmlEncodedString: description) {
             bodyLabel.text = fixedString
         } else {
             bodyLabel.text =  "No information about \(coin.name) is available."
+            moreButton.isHidden = true
+        }
+        
+        // Add the rank info row
+        addInfoRow(with: UIImage(systemName: "crown.fill"), title: "Rank", description: "#\(coin.rank)")
+        addInfoRow(with: UIImage(systemName: "chart.bar.fill"), title: "Market Cap", description: formatNumber(Int(coin.marketCap)!))
+        
+        if let allTimeHigh = coin.allTimeHigh, let priceString = allTimeHigh.price {
+            let price = Int(Double(priceString) ?? 0)
+            
+            addInfoRow(with: UIImage(
+                systemName: "chart.line.uptrend.xyaxis"),
+                title: "All Time High",
+                description: formatNumber(price),
+                       secodaryDescription: allTimeHigh.date.formatted(.dateTime.month().year()))
+        }
+        
+        if let supply = coin.supply, let circulating = supply.circulating {
+            let circulating = Int(Double(circulating) ?? 0)
+            
+  
+            var supplyPercentageString: String?
+            
+            if supply.exhaustedSupplyPercentage != 0.0 {
+                numberFormatter.numberStyle = .percent
+                supplyPercentageString = (numberFormatter.string(from: NSNumber(value: supply.exhaustedSupplyPercentage)) ?? "") + " of total supply"
+            } else {
+                supplyPercentageString = ""
+            }
+            
+            addInfoRow(with: UIImage(systemName: "arrow.triangle.2.circlepath"), title: "Ciculating Supply", description: formatNumber(circulating, decimalPlaces: 0, numberStyle: .none), secodaryDescription: supplyPercentageString)
+        }
+    }
+    
+    func addInfoRow(with symbol: UIImage?, title: String?, description: String?, secodaryDescription: String? = ""){
+        let infoRow = CWInfoRow(symbol: symbol, title: title, description: description, secondaryDescription: secodaryDescription)
+        
+        DispatchQueue.main.async {
+            self.aboutStackView.addArrangedSubview(infoRow)
         }
     }
     
@@ -296,8 +353,39 @@ private extension CWCoinDetailScreen {
         
         let aboutScreen = CWCoinAboutScreen(coin: coin)
         
-        navigationItem.backButtonTitle = coin.symbol
         navigationController?.pushViewController(aboutScreen, animated: true)
+    }
+    
+    
+    func formatNumber(_ n: Int, decimalPlaces : Int = 1 , numberStyle : NumberFormatter.Style = .currency) -> String {
+        let num = abs(Double(n))
+        
+        
+        switch num {
+        case 1_000_000_000...:
+            var formatted = num / 1_000_000_000
+            formatted = formatted.reduceScale(to: decimalPlaces)
+            numberFormatter.numberStyle = numberStyle
+            return (numberFormatter.string(from: NSNumber(value: formatted)) ?? " ") + "B"
+            
+        case 1_000_000...:
+            var formatted = num / 1_000_000
+            formatted = formatted.reduceScale(to: decimalPlaces)
+            numberFormatter.numberStyle = numberStyle
+            return (numberFormatter.string(from: NSNumber(value: formatted)) ?? " ") + "M"
+            
+        case 1_000...:
+            var formatted = num / 1_000
+            formatted = formatted.reduceScale(to: decimalPlaces)
+            numberFormatter.numberStyle = numberStyle
+            return (numberFormatter.string(from: NSNumber(value: formatted)) ?? " ") + "K"
+            
+        case 0...:
+            return numberFormatter.string(from: NSNumber(value: n)) ?? " "
+            
+        default:
+            return "\(n)"
+        }
     }
 }
 
@@ -310,13 +398,10 @@ extension CWCoinDetailScreen: ChartViewDelegate {
 
 extension String {
     init?(htmlEncodedString: String) {
-        guard let data = htmlEncodedString.data(using: .utf8) else {
-            return nil
-        }
+        let data = Data(htmlEncodedString.utf8)
         
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue
         ]
         
         guard let attributedString = try? NSAttributedString(data: data, options: options, documentAttributes: nil) else {
