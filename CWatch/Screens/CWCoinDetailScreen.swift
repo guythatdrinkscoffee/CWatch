@@ -23,8 +23,15 @@ class CWCoinDetailScreen: UIViewController {
     
     private lazy var numberFormatter : NumberFormatter = {
         let numberFormatter = NumberFormatter()
-        numberFormatter.maximumFractionDigits = 1
+        numberFormatter.maximumFractionDigits = 4
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.numberStyle = .currency
         return numberFormatter
+    }()
+    
+    private lazy var chartDateFormatter : DateFormatter = {
+        let formatter = DateFormatter()
+        return formatter
     }()
     
     // MARK: - UI
@@ -32,7 +39,6 @@ class CWCoinDetailScreen: UIViewController {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.isHidden = true
-        
         return scrollView
     }()
     
@@ -50,14 +56,15 @@ class CWCoinDetailScreen: UIViewController {
         chart.translatesAutoresizingMaskIntoConstraints = false
         
         chart.rightAxis.enabled       = false
-        chart.leftAxis.enabled        = false
         chart.legend.enabled          = false
         chart.pinchZoomEnabled        = false
         chart.doubleTapToZoomEnabled = false
         
         let xAxis = chart.xAxis
         xAxis.labelPosition = .bottom
-        
+        xAxis.drawLimitLinesBehindDataEnabled = true
+        xAxis.avoidFirstLastClippingEnabled = true
+
         return chart
     }()
     
@@ -221,7 +228,27 @@ private extension CWCoinDetailScreen {
 
 // MARK: - Methods
 private extension CWCoinDetailScreen {
-    private func setChartData(history: [History]) {
+    private func setChartData(history: [History], with timePeriod: TimePeriod) {
+        var dateFormat: String
+        
+        switch timePeriod {
+        case .now, .twentyFourHours:
+            chartView.xAxis.setLabelCount(5, force: true)
+            dateFormat = "h:mm a"
+        case .oneWeek:
+            chartView.xAxis.setLabelCount(7, force: true)
+            dateFormat = "EEE"
+        case .oneYear:
+            chartView.xAxis.setLabelCount(12, force: true)
+            dateFormat = "MMM"
+        case .threeYears:
+            chartView.xAxis.setLabelCount(3, force: true)
+            dateFormat = "yyyy"
+        case .fiveYears:
+            chartView.xAxis.setLabelCount(5, force: true)
+            dateFormat = "yyyy"
+        }
+        
         let sanitizedHistory = history.filter({ $0.price != nil })
         var entries: [ChartDataEntry] = []
         
@@ -240,10 +267,20 @@ private extension CWCoinDetailScreen {
         dataSet.drawCirclesEnabled = false
         dataSet.lineWidth = 1.5
         dataSet.mode = .cubicBezier
-        dataSet.colors = [.systemTeal]
-        
+        dataSet.colors = [.systemTeal.withAlphaComponent(0.8)]
+        dataSet.valueFormatter = DefaultValueFormatter(decimals: 2)
         let chartData = LineChartData(dataSet: dataSet)
         
+        chartDateFormatter.dateFormat = dateFormat
+        let xAxisFormatter = XAxisChartFormatter(dateFormatter: chartDateFormatter, dateValues: history.map{$0.timestamp}.reversed())
+        
+        numberFormatter.numberStyle = .currency
+        let marker = ChartMarker(numberFormatter: numberFormatter, dateFormatter: chartDateFormatter)
+        marker.chartView = chartView
+        
+        chartView.marker = marker
+        
+        chartView.xAxis.valueFormatter = xAxisFormatter
         chartView.data = chartData
         chartView.notifyDataSetChanged()
     }
@@ -266,7 +303,7 @@ private extension CWCoinDetailScreen {
     private func fetchHistoryForTimePeriod(timePeriod: TimePeriod) {
         let tp = timePeriod
         if let existingHistory = history[tp] {
-            setChartData(history: existingHistory.data.history)
+            setChartData(history: existingHistory.data.history, with: tp)
         } else {
             historyCancellable = coinService
                 .getCoinHistory(endpoint: .history(for: coinID, with: timePeriod))
@@ -279,7 +316,7 @@ private extension CWCoinDetailScreen {
                 }, receiveValue: { history in
                     let priceHistory = history.data.history
                     self.history[tp] = history
-                    self.setChartData(history: priceHistory)
+                    self.setChartData(history: priceHistory, with: tp)
                 })
         }
     }
@@ -287,7 +324,7 @@ private extension CWCoinDetailScreen {
     private func configure(for coin: Coin?){
         
         guard let coin = coin else { return }
-
+        
         coinHeader.configure(for: coin)
         aboutLabel.text = "About \(coin.name)"
         
@@ -307,25 +344,26 @@ private extension CWCoinDetailScreen {
             
             addInfoRow(with: UIImage(
                 systemName: "chart.line.uptrend.xyaxis"),
-                title: "All Time High",
-                description: formatNumber(price),
+                       title: "All Time High",
+                       description: formatNumber(price),
                        secodaryDescription: allTimeHigh.date.formatted(.dateTime.month().year()))
         }
         
         if let supply = coin.supply, let circulating = supply.circulating {
             let circulating = Int(Double(circulating) ?? 0)
             
-  
+            
             var supplyPercentageString: String?
             
             if supply.exhaustedSupplyPercentage != 0.0 {
                 numberFormatter.numberStyle = .percent
                 supplyPercentageString = (numberFormatter.string(from: NSNumber(value: supply.exhaustedSupplyPercentage)) ?? "") + " of total supply"
             } else {
+                numberFormatter.numberStyle = .currency
                 supplyPercentageString = ""
             }
             
-            addInfoRow(with: UIImage(systemName: "arrow.triangle.2.circlepath"), title: "Ciculating Supply", description: formatNumber(circulating, decimalPlaces: 0, numberStyle: .none), secodaryDescription: supplyPercentageString)
+            addInfoRow(with: UIImage(systemName: "arrow.triangle.2.circlepath"), title: "Ciculating Supply", description: formatNumber(circulating), secodaryDescription: supplyPercentageString)
         }
     }
     
@@ -357,31 +395,27 @@ private extension CWCoinDetailScreen {
     }
     
     
-    func formatNumber(_ n: Int, decimalPlaces : Int = 1 , numberStyle : NumberFormatter.Style = .currency) -> String {
+    func formatNumber(_ n: Int, decimalPlaces : Int = 1) -> String {
         let num = abs(Double(n))
-        
         
         switch num {
         case 1_000_000_000...:
             var formatted = num / 1_000_000_000
             formatted = formatted.reduceScale(to: decimalPlaces)
-            numberFormatter.numberStyle = numberStyle
-            return (numberFormatter.string(from: NSNumber(value: formatted)) ?? " ") + "B"
+            return  "\(formatted)B"
             
         case 1_000_000...:
             var formatted = num / 1_000_000
             formatted = formatted.reduceScale(to: decimalPlaces)
-            numberFormatter.numberStyle = numberStyle
-            return (numberFormatter.string(from: NSNumber(value: formatted)) ?? " ") + "M"
+            return "\(formatted)M"
             
         case 1_000...:
             var formatted = num / 1_000
             formatted = formatted.reduceScale(to: decimalPlaces)
-            numberFormatter.numberStyle = numberStyle
-            return (numberFormatter.string(from: NSNumber(value: formatted)) ?? " ") + "K"
+            return "\(formatted)K"
             
         case 0...:
-            return numberFormatter.string(from: NSNumber(value: n)) ?? " "
+            return "\n"
             
         default:
             return "\(n)"
@@ -394,20 +428,12 @@ extension CWCoinDetailScreen: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         print(entry)
     }
-}
-
-extension String {
-    init?(htmlEncodedString: String) {
-        let data = Data(htmlEncodedString.utf8)
-        
-        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
-            .documentType: NSAttributedString.DocumentType.html,
-        ]
-        
-        guard let attributedString = try? NSAttributedString(data: data, options: options, documentAttributes: nil) else {
-            return nil
-        }
-        
-        self.init(attributedString.string)
+    
+    func chartValueNothingSelected(_ chartView: ChartViewBase) {
+        print(#function)
+    }
+    
+    func chartViewDidEndPanning(_ chartView: ChartViewBase) {
+      
     }
 }

@@ -14,6 +14,9 @@
 		BE02F788293FE52B0087E4F8 /* CWViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE02F787293FE52B0087E4F8 /* CWViewPreview.swift */; };
 		BE038701293E92FA0051128D /* CWCoinAboutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE038700293E92FA0051128D /* CWCoinAboutScreen.swift */; };
 		BE038703293EF0FF0051128D /* CWInfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE038702293EF0FF0051128D /* CWInfoRow.swift */; };
+		BE50A341294072EA008DF5D7 /* CWChartMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A340294072EA008DF5D7 /* CWChartMarker.swift */; };
+		BE50A34429407313008DF5D7 /* XAxisChartFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A34329407313008DF5D7 /* XAxisChartFormatter.swift */; };
+		BE50A3462940733A008DF5D7 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A3452940733A008DF5D7 /* String+Ext.swift */; };
 		BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */; };
 		BE8CB71E29398B8800A1BCAA /* CWCoinDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */; };
 		BE8CB7202939B76700A1BCAA /* HistoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */; };
@@ -43,6 +46,9 @@
 		BE02F787293FE52B0087E4F8 /* CWViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWViewPreview.swift; sourceTree = "<group>"; };
 		BE038700293E92FA0051128D /* CWCoinAboutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinAboutScreen.swift; sourceTree = "<group>"; };
 		BE038702293EF0FF0051128D /* CWInfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWInfoRow.swift; sourceTree = "<group>"; };
+		BE50A340294072EA008DF5D7 /* CWChartMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWChartMarker.swift; sourceTree = "<group>"; };
+		BE50A34329407313008DF5D7 /* XAxisChartFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxisChartFormatter.swift; sourceTree = "<group>"; };
+		BE50A3452940733A008DF5D7 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		BE66BD7B293942EE00BF8144 /* CWPaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWPaddedLabel.swift; sourceTree = "<group>"; };
 		BE8CB71D29398B8800A1BCAA /* CWCoinDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinDetailScreen.swift; sourceTree = "<group>"; };
 		BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryResponse.swift; sourceTree = "<group>"; };
@@ -93,8 +99,17 @@
 				BE02F781293FE00C0087E4F8 /* UIStackView+Ext.swift */,
 				BE02F783293FE01D0087E4F8 /* Double+Ext.swift */,
 				BE02F785293FE4F30087E4F8 /* CoinResponse+Ext.swift */,
+				BE50A3452940733A008DF5D7 /* String+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BE50A34229407306008DF5D7 /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+				BE50A34329407313008DF5D7 /* XAxisChartFormatter.swift */,
+			);
+			path = Formatters;
 			sourceTree = "<group>";
 		};
 		BE8CB71A2939633D00A1BCAA /* Controllers */ = {
@@ -181,6 +196,7 @@
 		BEC594BB293885FE007D68D6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				BE50A34229407306008DF5D7 /* Formatters */,
 				BEC594B9293877E7007D68D6 /* Secrets.swift */,
 				BEC594BC29388606007D68D6 /* CoinResponse.swift */,
 				BE8CB71F2939B76700A1BCAA /* HistoryResponse.swift */,
@@ -197,6 +213,7 @@
 				BEC8639D293BF58000A5BD12 /* CWCoinHeaderView.swift */,
 				BE038702293EF0FF0051128D /* CWInfoRow.swift */,
 				BE02F787293FE52B0087E4F8 /* CWViewPreview.swift */,
+				BE50A340294072EA008DF5D7 /* CWChartMarker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -326,6 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE50A341294072EA008DF5D7 /* CWChartMarker.swift in Sources */,
 				BEC594A029386DCB007D68D6 /* CTMainTabViewController.swift in Sources */,
 				BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */,
 				BEC5949C29386DCB007D68D6 /* AppDelegate.swift in Sources */,
@@ -335,9 +353,11 @@
 				BE02F784293FE01D0087E4F8 /* Double+Ext.swift in Sources */,
 				BE02F786293FE4F30087E4F8 /* CoinResponse+Ext.swift in Sources */,
 				BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */,
+				BE50A3462940733A008DF5D7 /* String+Ext.swift in Sources */,
 				BEC8639E293BF58000A5BD12 /* CWCoinHeaderView.swift in Sources */,
 				BE02F788293FE52B0087E4F8 /* CWViewPreview.swift in Sources */,
 				BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */,
+				BE50A34429407313008DF5D7 /* XAxisChartFormatter.swift in Sources */,
 				BE8CB7202939B76700A1BCAA /* HistoryResponse.swift in Sources */,
 				BEC594B329387024007D68D6 /* CWMarketScreen.swift in Sources */,
 				BE02F782293FE00C0087E4F8 /* UIStackView+Ext.swift in Sources */,
