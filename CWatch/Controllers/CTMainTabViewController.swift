@@ -23,7 +23,8 @@ private extension CTMainTabViewController {
         tabBar.tintColor = .label
         
         viewControllers = [
-            configureSearchScreen()
+            configureSearchScreen(),
+            configureWatchlistScreen()
         ]
     }
     
@@ -33,6 +34,15 @@ private extension CTMainTabViewController {
         searchScreen.title = "Market"
         
         let navController = UINavigationController(rootViewController: searchScreen)
+        return navController
+    }
+    
+    private func configureWatchlistScreen() -> UINavigationController {
+        let watchlistScreen = CWWatchlistScreen()
+        watchlistScreen.tabBarItem = UITabBarItem(title: "Watchlist", image: UIImage(systemName: "eyeglasses"), tag: 1)
+        watchlistScreen.title = "Watchlist"
+        
+        let navController = UINavigationController(rootViewController: watchlistScreen)
         return navController
     }
 }
