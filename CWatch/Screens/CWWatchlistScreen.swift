@@ -162,6 +162,11 @@ private extension CWWatchlistScreen {
 extension CWWatchlistScreen: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let selectedCoin = fetchResultsController.object(at: indexPath)
+        let detailScreen = CWCoinDetailScreen(coin: selectedCoin, watchlistManager: watchlistManager)
+        
+        navigationController?.pushViewController(detailScreen, animated: true)
     }
 }
 
@@ -195,5 +200,7 @@ extension CWWatchlistScreen: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller:
       NSFetchedResultsController<NSFetchRequestResult>) {
         watchlistTableView.reloadData()
+        
+        symbols = fetchResultsController.fetchedObjects?.compactMap({$0.uuid})
     }
 }

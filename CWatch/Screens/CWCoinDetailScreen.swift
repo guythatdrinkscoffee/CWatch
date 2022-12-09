@@ -148,6 +148,17 @@ class CWCoinDetailScreen: UIViewController {
         
         // Start animating the indicator
         activityIndicator.startAnimating()
+        
+    }
+    
+    init(coin: CWCoin, watchlistManager: CWWatchlistManager) {
+        self.coinID = coin.uuid
+        self.watchlistManager = watchlistManager
+        super.init(nibName: nil, bundle: nil)
+        
+        layoutViews()
+        
+        activityIndicator.startAnimating()
     }
     
     required init?(coder: NSCoder) {
