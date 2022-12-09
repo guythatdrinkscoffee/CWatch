@@ -10,17 +10,18 @@ import Charts
 import Combine
 class CWCoinDetailScreen: UIViewController {
     // MARK: -  Properties
-    var coinID: String
-    var coin: Coin? {
+    private var coinID: String
+    private var coin: Coin? {
         didSet {
             configure(for: coin)
         }
     }
-    var coinCancellable: AnyCancellable?
-    var historyCancellable: AnyCancellable?
-    var history: [TimePeriod: HistoryResponse] = [:]
-    var coinService: CoinService = CoinService()
-    
+    private var coinCancellable: AnyCancellable?
+    private var historyCancellable: AnyCancellable?
+    private var watchlistCancellable : AnyCancellable?
+    private var history: [TimePeriod: HistoryResponse] = [:]
+    private var coinService: CoinService = CoinService()
+    private var watchlistManager: CWWatchlistManager
     private lazy var numberFormatter : NumberFormatter = {
         let numberFormatter = NumberFormatter()
         numberFormatter.maximumFractionDigits = 4
@@ -137,8 +138,9 @@ class CWCoinDetailScreen: UIViewController {
     }()
     
     // MARK: - Life Cycle
-    init(coin: Coin){
+    init(coin: Coin, watchlistManager: CWWatchlistManager){
         self.coinID = coin.uuid
+        self.watchlistManager = watchlistManager
         super.init(nibName: nil, bundle: nil)
         
         // Layout
@@ -157,6 +159,7 @@ class CWCoinDetailScreen: UIViewController {
         
         // Configuration
         configureViewController()
+        configureNavigationBar()
         
         // Fetch the coin information
         fetchCoin()
@@ -165,6 +168,7 @@ class CWCoinDetailScreen: UIViewController {
         fetchHistoryForTimePeriod(timePeriod: .now)
         
     }
+    
 }
 
 // MARK: - Configuration
@@ -174,6 +178,24 @@ private extension CWCoinDetailScreen {
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.backButtonDisplayMode = .minimal
+    }
+    
+    private func configureNavigationBar(){
+        if watchlistManager.isInWatchlist(uuid: coinID){
+            removeFromWatchlistConfig()
+        } else {
+            addToWatchlistConfig()
+        }
+    }
+    
+    private func addToWatchlistConfig() {
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addToWatchlist(_:)))
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    private func removeFromWatchlistConfig() {
+        let removeButton = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .plain, target: self, action: #selector(removeFromWatchlist(_:)))
+        navigationItem.rightBarButtonItem = removeButton
     }
 }
 
@@ -375,26 +397,6 @@ private extension CWCoinDetailScreen {
         }
     }
     
-    @objc
-    private func didSelectTimePeriod(_ sender: UISegmentedControl) {
-        let selectedIndex = sender.selectedSegmentIndex
-        let value = sender.titleForSegment(at: selectedIndex)
-        
-        if let rawValue = value, let timePeriod = TimePeriod(rawValue: rawValue) {
-            fetchHistoryForTimePeriod(timePeriod: timePeriod)
-        }
-    }
-    
-    @objc
-    private func moreButtonSelected(_ sender: UIButton) {
-        guard let coin = coin else { return }
-        
-        let aboutScreen = CWCoinAboutScreen(coin: coin)
-        
-        navigationController?.pushViewController(aboutScreen, animated: true)
-    }
-    
-    
     func formatNumber(_ n: Int, decimalPlaces : Int = 1) -> String {
         let num = abs(Double(n))
         
@@ -420,6 +422,70 @@ private extension CWCoinDetailScreen {
         default:
             return "\(n)"
         }
+    }
+}
+
+// MARK: - Selectors
+extension CWCoinDetailScreen {
+    @objc
+    private func didSelectTimePeriod(_ sender: UISegmentedControl) {
+        let selectedIndex = sender.selectedSegmentIndex
+        let value = sender.titleForSegment(at: selectedIndex)
+        
+        if let rawValue = value, let timePeriod = TimePeriod(rawValue: rawValue) {
+            fetchHistoryForTimePeriod(timePeriod: timePeriod)
+        }
+    }
+    
+    @objc
+    private func moreButtonSelected(_ sender: UIButton) {
+        guard let coin = coin else { return }
+        
+        let aboutScreen = CWCoinAboutScreen(coin: coin)
+        
+        navigationController?.pushViewController(aboutScreen, animated: true)
+    }
+    
+    @objc
+    private func addToWatchlist(_ sender: UIBarButtonItem) {
+        guard let coin = coin else { return }
+        
+        watchlistCancellable = watchlistManager
+            .addToWatchlist(coin)
+            .sink(receiveCompletion: { completion in
+                print(completion)
+            }, receiveValue: { successful in
+                if successful {
+                    print("Added to watchlist!")
+                }
+            })
+    }
+    
+    @objc
+    private func removeFromWatchlist(_ sender: UIBarButtonItem) {
+        guard let coin = coin else { return }
+        
+        let alertController = UIAlertController(title: "Remove from watchlist.", message: "Are you sure you want to remove \(coin.name ?? "") from your watchlist?", preferredStyle: .actionSheet)
+        let removeAction = UIAlertAction(title: "Remove", style: .destructive) { _ in
+            self.watchlistCancellable = self.watchlistManager
+                .removeFromWatchlist(with: coin.uuid)
+                .sink(receiveCompletion: { completion in
+                    
+                }, receiveValue: { success in
+                    if success {
+                        print("Removed from watchlist.")
+                    }
+                })
+        }
+        
+        let cancel   = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            
+        }
+        
+        alertController.addAction(removeAction)
+        alertController.addAction(cancel)
+        
+        self.present(alertController, animated: true)
     }
 }
 

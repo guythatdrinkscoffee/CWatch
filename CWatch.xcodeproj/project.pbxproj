@@ -14,6 +14,11 @@
 		BE02F788293FE52B0087E4F8 /* CWViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE02F787293FE52B0087E4F8 /* CWViewPreview.swift */; };
 		BE038701293E92FA0051128D /* CWCoinAboutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE038700293E92FA0051128D /* CWCoinAboutScreen.swift */; };
 		BE038703293EF0FF0051128D /* CWInfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE038702293EF0FF0051128D /* CWInfoRow.swift */; };
+		BE0A3BB92941A470006C7997 /* CWatch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BB72941A470006C7997 /* CWatch.xcdatamodeld */; };
+		BE0A3BBC2941A4A9006C7997 /* CWCoin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BBA2941A4A9006C7997 /* CWCoin+CoreDataClass.swift */; };
+		BE0A3BBD2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BBB2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift */; };
+		BE0A3BBF2941A4C4006C7997 /* CWDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BBE2941A4C4006C7997 /* CWDataStore.swift */; };
+		BE0A3BC12941A5AA006C7997 /* CWWatchlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BC02941A5AA006C7997 /* CWWatchlistManager.swift */; };
 		BE50A341294072EA008DF5D7 /* CWChartMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A340294072EA008DF5D7 /* CWChartMarker.swift */; };
 		BE50A34429407313008DF5D7 /* XAxisChartFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A34329407313008DF5D7 /* XAxisChartFormatter.swift */; };
 		BE50A3462940733A008DF5D7 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A3452940733A008DF5D7 /* String+Ext.swift */; };
@@ -48,6 +53,11 @@
 		BE02F787293FE52B0087E4F8 /* CWViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWViewPreview.swift; sourceTree = "<group>"; };
 		BE038700293E92FA0051128D /* CWCoinAboutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWCoinAboutScreen.swift; sourceTree = "<group>"; };
 		BE038702293EF0FF0051128D /* CWInfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWInfoRow.swift; sourceTree = "<group>"; };
+		BE0A3BB82941A470006C7997 /* CWatch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CWatch.xcdatamodel; sourceTree = "<group>"; };
+		BE0A3BBA2941A4A9006C7997 /* CWCoin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CWCoin+CoreDataClass.swift"; path = "CWatch/Coredata/CWCoin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BE0A3BBB2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CWCoin+CoreDataProperties.swift"; path = "CWatch/Coredata/CWCoin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE0A3BBE2941A4C4006C7997 /* CWDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWDataStore.swift; sourceTree = "<group>"; };
+		BE0A3BC02941A5AA006C7997 /* CWWatchlistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWWatchlistManager.swift; sourceTree = "<group>"; };
 		BE50A340294072EA008DF5D7 /* CWChartMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWChartMarker.swift; sourceTree = "<group>"; };
 		BE50A34329407313008DF5D7 /* XAxisChartFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxisChartFormatter.swift; sourceTree = "<group>"; };
 		BE50A3452940733A008DF5D7 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -109,6 +119,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		BE0A3BB62941A466006C7997 /* Coredata */ = {
+			isa = PBXGroup;
+			children = (
+				BE0A3BB72941A470006C7997 /* CWatch.xcdatamodeld */,
+				BE0A3BBE2941A4C4006C7997 /* CWDataStore.swift */,
+				BE0A3BC02941A5AA006C7997 /* CWWatchlistManager.swift */,
+			);
+			path = Coredata;
+			sourceTree = "<group>";
+		};
 		BE50A34229407306008DF5D7 /* Formatters */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +148,8 @@
 		BEC5948F29386DCB007D68D6 = {
 			isa = PBXGroup;
 			children = (
+				BE0A3BBA2941A4A9006C7997 /* CWCoin+CoreDataClass.swift */,
+				BE0A3BBB2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift */,
 				BEC5949A29386DCB007D68D6 /* CWatch */,
 				BEC5949929386DCB007D68D6 /* Products */,
 				7D3DFE5D3D640EA3B88908AE /* Pods */,
@@ -146,6 +168,7 @@
 		BEC5949A29386DCB007D68D6 /* CWatch */ = {
 			isa = PBXGroup;
 			children = (
+				BE0A3BB62941A466006C7997 /* Coredata */,
 				BE02F780293FE0050087E4F8 /* Extensions */,
 				BE8CB71A2939633D00A1BCAA /* Controllers */,
 				BEC594C029392DEE007D68D6 /* Views */,
@@ -349,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE0A3BBC2941A4A9006C7997 /* CWCoin+CoreDataClass.swift in Sources */,
 				BE50A341294072EA008DF5D7 /* CWChartMarker.swift in Sources */,
 				BEC594A029386DCB007D68D6 /* CTMainTabViewController.swift in Sources */,
 				BEC594BA293877E7007D68D6 /* Secrets.swift in Sources */,
@@ -358,19 +382,23 @@
 				BE038701293E92FA0051128D /* CWCoinAboutScreen.swift in Sources */,
 				BE02F784293FE01D0087E4F8 /* Double+Ext.swift in Sources */,
 				BE02F786293FE4F30087E4F8 /* CoinResponse+Ext.swift in Sources */,
+				BE0A3BC12941A5AA006C7997 /* CWWatchlistManager.swift in Sources */,
 				BE66D7E229407795000688CC /* CWWatchlistScreen.swift in Sources */,
 				BEC594B6293876D3007D68D6 /* CoinService.swift in Sources */,
 				BE50A3462940733A008DF5D7 /* String+Ext.swift in Sources */,
 				BE66D7E429407A2C000688CC /* UIFont+Ext.swift in Sources */,
 				BEC8639E293BF58000A5BD12 /* CWCoinHeaderView.swift in Sources */,
 				BE02F788293FE52B0087E4F8 /* CWViewPreview.swift in Sources */,
+				BE0A3BBF2941A4C4006C7997 /* CWDataStore.swift in Sources */,
 				BEC5949E29386DCB007D68D6 /* SceneDelegate.swift in Sources */,
 				BE50A34429407313008DF5D7 /* XAxisChartFormatter.swift in Sources */,
 				BE8CB7202939B76700A1BCAA /* HistoryResponse.swift in Sources */,
 				BEC594B329387024007D68D6 /* CWMarketScreen.swift in Sources */,
+				BE0A3BBD2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift in Sources */,
 				BE02F782293FE00C0087E4F8 /* UIStackView+Ext.swift in Sources */,
 				BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */,
 				BEC594C229392E0E007D68D6 /* CWCoinCell.swift in Sources */,
+				BE0A3BB92941A470006C7997 /* CWatch.xcdatamodeld in Sources */,
 				BEC594BD29388606007D68D6 /* CoinResponse.swift in Sources */,
 				BE8CB71E29398B8800A1BCAA /* CWCoinDetailScreen.swift in Sources */,
 			);
@@ -586,6 +614,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BE0A3BB72941A470006C7997 /* CWatch.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BE0A3BB82941A470006C7997 /* CWatch.xcdatamodel */,
+			);
+			currentVersion = BE0A3BB82941A470006C7997 /* CWatch.xcdatamodel */;
+			path = CWatch.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BEC5949029386DCB007D68D6 /* Project object */;
 }

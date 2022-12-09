@@ -10,11 +10,15 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var dataStore: CWDataStore!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // Initialize the data store
+        dataStore = CWDataStore(modelName: "CWatch")
+        
+        // Appearance
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont.rounded(ofSize: 32, weight: .bold)]
         
         return true

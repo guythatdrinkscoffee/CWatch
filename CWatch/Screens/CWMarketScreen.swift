@@ -15,7 +15,7 @@ class CWMarketScreen: UIViewController {
     private var cancellable: AnyCancellable?
     private var isFetching: Bool = false
     private var coins: [Coin] = []
-    
+    private var watchlistManager: CWWatchlistManager
     private lazy var numberFormatter : NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -27,6 +27,7 @@ class CWMarketScreen: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     // MARK: -  UI
     private lazy var coinsTableView : UITableView = {
         let tableView = UITableView(frame: view.bounds)
@@ -41,6 +42,14 @@ class CWMarketScreen: UIViewController {
     }()
     
     // MARK: - Life Cycle
+    init(watchlistManager: CWWatchlistManager) {
+        self.watchlistManager = watchlistManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +75,8 @@ private extension CWMarketScreen {
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.backButtonTitle = ""
     }
+    
+ 
 }
 
 // MARK: - Layout
@@ -142,7 +153,7 @@ extension CWMarketScreen: UITableViewDelegate {
         let selectedCoin = coins[indexPath.row]
         
         // Navigate to the coin detail screen
-        let coinDetailScreen = CWCoinDetailScreen(coin: selectedCoin)
+        let coinDetailScreen = CWCoinDetailScreen(coin: selectedCoin, watchlistManager: watchlistManager)
         
         // Navigate to the detail screen
         navigationController?.pushViewController(coinDetailScreen, animated: true)

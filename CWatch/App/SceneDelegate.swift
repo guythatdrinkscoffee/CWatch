@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene), let dataStore = (UIApplication.shared.delegate as? AppDelegate)?.dataStore else { return }
         
         // Initialize the window
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         // Assign the root view controller
-        window?.rootViewController = CTMainTabViewController()
+        window?.rootViewController = CTMainTabViewController(watchlistManager: CWWatchlistManager(dataStore: dataStore))
         
         // Set dark mode by default
 //        window?.overrideUserInterfaceStyle = .dark
