@@ -333,7 +333,7 @@ private extension CWCoinDetailScreen {
                 .sink(receiveCompletion: { completion in
                     switch completion {
                     case .failure(let error) : print(error)
-                    case .finished: print(completion)
+                    case .finished: break
                     }
                 }, receiveValue: { history in
                     let priceHistory = history.data.history
@@ -359,7 +359,7 @@ private extension CWCoinDetailScreen {
         
         // Add the rank info row
         addInfoRow(with: UIImage(systemName: "crown.fill"), title: "Rank", description: "#\(coin.rank)")
-        addInfoRow(with: UIImage(systemName: "chart.bar.fill"), title: "Market Cap", description: formatNumber(Int(coin.marketCap)!))
+        addInfoRow(with: UIImage(systemName: "chart.bar.fill"), title: "Market Cap", description: formatNumber(Int(coin.marketCap ?? "0.0")!))
         
         if let allTimeHigh = coin.allTimeHigh, let priceString = allTimeHigh.price {
             let price = Int(Double(priceString) ?? 0)
@@ -452,8 +452,8 @@ extension CWCoinDetailScreen {
         
         watchlistCancellable = watchlistManager
             .addToWatchlist(coin)
-            .sink(receiveCompletion: { completion in
-                print(completion)
+            .sink(receiveCompletion: { _ in
+                
             }, receiveValue: { successful in
                 if successful {
                     print("Added to watchlist!")

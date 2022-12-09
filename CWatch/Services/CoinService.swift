@@ -18,7 +18,7 @@ enum TimePeriod: String, CaseIterable{
 }
 
 struct CoinService {
-    func getCoins(endpoint: Endpoint) -> Future<CoinResponse,Error> {
+    func getCoins(endpoint: Endpoint) -> AnyPublisher<CoinResponse, Error>{
         Future { promise in
             guard let url = endpoint.url else {
                 return promise(.failure(URLError(.badURL)))
@@ -42,9 +42,29 @@ struct CoinService {
                 }
             }.resume()
         }
+        .eraseToAnyPublisher()
     }
     
-    func getCoinHistory(endpoint: Endpoint) -> Future<HistoryResponse, Error> {
+    func getCoinsData(endpoint: Endpoint) -> AnyPublisher<Data, Error>{
+        Future { promise in
+            guard let url = endpoint.url else {
+                return promise(.failure(URLError(.badURL)))
+            }
+            
+            let request = buildRequestWithHeaders(for: url)
+            
+            URLSession.shared.dataTask(with: request) { data, res, err in
+                guard err == nil, let data = data,  let res = res as? HTTPURLResponse, res.statusCode == 200 else {
+                    return promise(.failure(URLError(.badServerResponse)))
+                }
+                
+                promise(.success(data))
+            }.resume()
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func getCoinHistory(endpoint: Endpoint) -> AnyPublisher<HistoryResponse, Error> {
         Future { promise in
             guard let url = endpoint.url else {
                 return promise(.failure(URLError(.badURL)))
@@ -69,9 +89,10 @@ struct CoinService {
                 }
             }.resume()
         }
+        .eraseToAnyPublisher()
     }
     
-    func getCoin(endpoint: Endpoint) -> Future<CoinResponse, Error> {
+    func getCoin(endpoint: Endpoint) -> AnyPublisher<CoinResponse, Error> {
         Future { promise in
             guard let url = endpoint.url else {
                 return promise(.failure(URLError(.badURL)))
@@ -95,6 +116,7 @@ struct CoinService {
                 }
             }.resume()
         }
+        .eraseToAnyPublisher()
     }
     
     

@@ -41,7 +41,15 @@ class CWCoinCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
-
+    
+    private lazy var changeLabel : UILabel = {
+        let label = UILabel()
+        label.font = .monospacedSystemFont(ofSize: 14, weight: .bold)
+        label.textAlignment = .right
+        label.textColor = .systemGray
+        return label
+    }()
+    
     private lazy var coinPriceLabelContainer : UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
@@ -57,7 +65,7 @@ class CWCoinCell: UITableViewCell {
     }()
     
     private lazy var priceLabelsStackView : UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [UIView(),coinPriceLabelContainer, UIView()])
+        let stackView = UIStackView(arrangedSubviews: [UIView(),coinPriceLabelContainer])
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         return stackView
@@ -111,6 +119,7 @@ class CWCoinCell: UITableViewCell {
     }
     
     func setData(for coin: Coin) {
+        
         var entries: [ChartDataEntry] = []
     
         for i in 0..<coin.sparklineData.count {
@@ -126,6 +135,7 @@ class CWCoinCell: UITableViewCell {
         let dataSet = LineChartData(dataSet: set)
         dataSet.setDrawValues(false)
         
+       
         sparkLineChart.data = dataSet
         sparkLineChart.notifyDataSetChanged()
     }
@@ -145,17 +155,23 @@ extension CWCoinCell {
         coinPriceLabel.text = formatter?.string(from: coin.currentPrice as NSNumber)
         coinPriceLabel.textColor = setColor(bool: coin.priceChange > 0.0)
         coinPriceLabelContainer.backgroundColor = setColor(bool: coin.priceChange > 0.0, alpha: 0.15)
+        priceLabelsStackView.addArrangedSubview(UIView())
+        
         setData(for: coin)
         
         layoutIfNeeded()
     }
     
-    public func configure(for coin: CWCoin?) {
-        guard let coin = coin else { return }
+    public func configure(for cwCoin: CWCoin?, formatter: NumberFormatter? = nil) {
+        guard let coin = cwCoin else { return }
         coinNameLabel.text = coin.name
         coinTickerLabel.text = coin.symbol
-        sparkLineChart.isHidden = true
-        
+        coinPriceLabel.text = formatter?.string(from: coin.currentPrice as NSNumber)
+        coinPriceLabel.textColor = setColor(bool: coin.priceChange > 0.0)
+        coinPriceLabelContainer.backgroundColor = setColor(bool: coin.priceChange > 0.0, alpha: 0.15)
+        changeLabel.text = (cwCoin?.change ?? " ") + "%"
+        priceLabelsStackView.addArrangedSubview(changeLabel)
+        sparkLineChart.noDataText = " "
         layoutIfNeeded()
     }
 }

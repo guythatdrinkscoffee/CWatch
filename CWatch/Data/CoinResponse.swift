@@ -7,23 +7,23 @@
 
 import Foundation
 
-struct CoinResponse: Decodable {
+struct CoinResponse: Codable {
     let status: String
     let data: CoinData
    
 }
 
-struct CoinData: Decodable {
+struct CoinData: Codable {
     let stats: Stats?
     let coins: [Coin]?
     let coin: Coin?
 }
 
-struct Stats: Decodable {
+struct Stats: Codable {
     let totalCoins: Int
 }
 
-struct Coin: Decodable {
+struct Coin: Codable{
     let uuid: String
     let symbol: String
     let name: String
@@ -67,16 +67,18 @@ struct Coin: Decodable {
     }
 }
 
-struct AllTimeHigh: Decodable {
+struct AllTimeHigh: Codable {
     let price: String?
     let timestamp: TimeInterval
     
     var date: Date {
         return Date(timeIntervalSince1970: timestamp)
     }
+    
+    
 }
 
-struct Supply: Decodable {
+struct Supply: Codable {
     let max: String?
     let supplyAt: Int?
     let total: String? 

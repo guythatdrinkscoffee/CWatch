@@ -24,7 +24,9 @@ final class CWDataStore {
             }
             
             print(storeDescription)
+
             container.viewContext.automaticallyMergesChangesFromParent = true
+            container.viewContext.mergePolicy = NSMergePolicy.overwrite
         }
         return container
     }()
@@ -38,6 +40,7 @@ final class CWDataStore {
   
     // MARK: - Methods
     public func save() throws -> Bool {
+        print(#function)
         guard managedContext.hasChanges else { return false }
         
         do {

@@ -18,24 +18,38 @@ struct Endpoint {
         components.host = "coinranking1.p.rapidapi.com"
         components.path = path
         components.queryItems = queryItems
-        
+    
         return components.url
     }
     
     static func coins(
         for timePeriod: TimePeriod,
-        limit: Int,
-        page: Int,
+        limit: Int? = nil,
+        page: Int? = nil,
+        uuids: [String]? = nil,
         currencyRef: String = "yhjMzLPhuIDl"
     ) -> Endpoint {
+        
+        var queryItems = [
+            URLQueryItem(name: "timePeriod", value: timePeriod.rawValue),
+            URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
+        ]
+        
+        if let limit = limit, let page = page {
+            queryItems.append(contentsOf: [
+                URLQueryItem(name: "limit", value: String(limit)),
+                URLQueryItem(name: "offset", value: String((page - 1) * limit))
+            ])
+        }
+        
+        if let uuids = uuids, !uuids.isEmpty {
+            queryItems.append(contentsOf: uuids.map( { URLQueryItem(name: "uuids[]", value: $0)}))
+        }
+       
         return Endpoint(
             path: "/coins",
-            queryItems: [
-                URLQueryItem(name: "timePeriod", value: timePeriod.rawValue),
-                URLQueryItem(name: "limit", value: String(limit)),
-                URLQueryItem(name: "offset", value: String((page - 1) * limit)),
-                URLQueryItem(name: "referenceCurrencyUuid", value: currencyRef)
-            ])
+            queryItems: queryItems
+        )
     }
     
     static func coin(

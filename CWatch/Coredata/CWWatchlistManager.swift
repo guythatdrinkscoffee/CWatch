@@ -15,8 +15,9 @@ final class CWWatchlistManager {
         case saveError(String)
         case deleteError(String)
     }
-    private var dataStore: CWDataStore
     
+    private var dataStore: CWDataStore
+
     // MARK: - Life Cycle
     init(dataStore: CWDataStore){
         self.dataStore = dataStore
@@ -32,6 +33,8 @@ final class CWWatchlistManager {
         newCoin.uuid = coin.uuid
         newCoin.name = coin.name
         newCoin.symbol = coin.symbol
+        newCoin.change = coin.change
+        newCoin.price = coin.price
         
         return Future { promise in
             do {
@@ -96,4 +99,26 @@ final class CWWatchlistManager {
             return nil
         }
     }
+    
+    public func updateCoins(_ coins: [Coin]) {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.userInfo[.managedObjectContext] = context
+        
+        context.perform {
+            do {
+                let coinData = try JSONEncoder().encode(coins)
+            
+                _ = try jsonDecoder.decode([CWCoin].self, from: coinData)
+                
+                try self.context.save()
+            } catch {
+                print(error.localizedDescription)
+                if self.context.hasChanges {
+                    self.context.rollback()
+                }
+            }
+        }
+    }
 }
+
+

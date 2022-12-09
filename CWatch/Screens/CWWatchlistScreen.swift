@@ -7,14 +7,30 @@
 
 import UIKit
 import CoreData
-    
+import Combine
+
 class CWWatchlistScreen: UIViewController {
     // MARK: - Properties
     private var watchlistManager: CWWatchlistManager
+        
+    private var serviceCancellable: AnyCancellable?
+    
+    private var timerCancellable: AnyCancellable?
+    
+    private var coinService = CoinService()
+    
+    private var symbols: [String]? = []
+    
+    private lazy var numberFormatter : NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.minimumFractionDigits = 4
+        return formatter
+    }()
     
     private lazy var fetchResultsController : NSFetchedResultsController<CWCoin> = {
         let fetchRequest : NSFetchRequest<CWCoin> = CWCoin.fetchRequest()
-        fetchRequest.sortDescriptors = []
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         let controller = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -24,6 +40,7 @@ class CWWatchlistScreen: UIViewController {
         controller.delegate = self
         return controller
     }()
+    
     // MARK: - UI
     private lazy var watchlistTableView : UITableView = {
         let tableView = UITableView(frame: view.bounds)
@@ -32,6 +49,7 @@ class CWWatchlistScreen: UIViewController {
         tableView.register(CWCoinCell.self, forCellReuseIdentifier: CWCoinCell.resuseIdentifier)
         return tableView
     }()
+    
     // MARK: - Life Cycle
     init(watchlistManager: CWWatchlistManager) {
         self.watchlistManager = watchlistManager
@@ -55,6 +73,18 @@ class CWWatchlistScreen: UIViewController {
         // Fetch the watchlist
         fetch()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        startPoll()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        endPoll()
+    }
 }
 
 // MARK: - Layout
@@ -69,9 +99,51 @@ private extension CWWatchlistScreen {
     private func fetch() {
         do {
             try fetchResultsController.performFetch()
+            
+            symbols = fetchResultsController.fetchedObjects?.compactMap({$0.uuid})
+            
         } catch {
             fatalError(error.localizedDescription)
         }
+    }
+    
+    private func startPoll() {
+        guard timerCancellable == nil else {
+            return
+        }
+        
+        timerCancellable = Timer.publish(every: 10, on: .current, in: .default)
+            .autoconnect()
+            .map({ (_) -> [String] in
+                return self.symbols ?? []
+            })
+            .flatMap({ symb -> AnyPublisher<CoinResponse, Error> in
+                guard !symb.isEmpty else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                
+                return self.coinService
+                    .getCoins(endpoint: .coins(for: .now, uuids: symb))
+                    .handleEvents(receiveOutput: { coinResp in
+                        self.watchlistManager.updateCoins(coinResp.data.coins ?? [])
+                    })
+                    .eraseToAnyPublisher()
+            })
+            .replaceError(with: CoinResponse(status: "failure", data: CoinData(stats: nil, coins: nil, coin: nil)))
+            .sink(receiveValue: { _ in
+                print("Prices fetched")
+            })
+    }
+    
+    private func endPoll() {
+        timerCancellable = nil
+    }
+    
+    private func configure(cell: UITableViewCell, for indexPath: IndexPath) {
+        guard let cell = cell as? CWCoinCell else { return }
+        
+        let coin = fetchResultsController.object(at: indexPath)
+        cell.configure(for: coin, formatter: numberFormatter)
     }
 }
 // MARK: - Configuration
@@ -88,11 +160,17 @@ private extension CWWatchlistScreen {
 
 // MARK: - UITableViewDelegate
 extension CWWatchlistScreen: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension CWWatchlistScreen: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchResultsController.sections?.count ?? 0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionInfo = fetchResultsController.sections?[section] else {
             return 0
@@ -106,16 +184,16 @@ extension CWWatchlistScreen: UITableViewDataSource {
             fatalError("failed to dequeue a table view cell")
         }
         
-        let coin = fetchResultsController.object(at: indexPath)
-        cell.configure(for: coin)
+        configure(cell: cell, for: indexPath)
         
         return cell
     }
-    
-    
 }
 
 // MARK: - NSFetchResultsControllerDelegate
 extension CWWatchlistScreen: NSFetchedResultsControllerDelegate {
-    
+    func controllerDidChangeContent(_ controller:
+      NSFetchedResultsController<NSFetchRequestResult>) {
+        watchlistTableView.reloadData()
+    }
 }
