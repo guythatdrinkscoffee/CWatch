@@ -152,10 +152,10 @@ extension CWCoinCell {
     
     public func configure(for coin: CWCoin?) {
         guard let coin = coin else { return }
-        print(coin.name)
         coinNameLabel.text = coin.name
         coinTickerLabel.text = coin.symbol
         sparkLineChart.isHidden = true
+        
         layoutIfNeeded()
     }
 }

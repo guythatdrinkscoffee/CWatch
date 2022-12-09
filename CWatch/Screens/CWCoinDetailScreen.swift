@@ -271,7 +271,7 @@ private extension CWCoinDetailScreen {
             dateFormat = "yyyy"
         }
         
-        let sanitizedHistory = history.filter({ $0.price != nil })
+        let sanitizedHistory = Array(history.filter({ $0.price != nil }).reversed())
         var entries: [ChartDataEntry] = []
         
         for i in 0..<sanitizedHistory.count {
