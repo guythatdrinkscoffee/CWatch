@@ -45,25 +45,6 @@ struct CoinService {
         .eraseToAnyPublisher()
     }
     
-    func getCoinsData(endpoint: Endpoint) -> AnyPublisher<Data, Error>{
-        Future { promise in
-            guard let url = endpoint.url else {
-                return promise(.failure(URLError(.badURL)))
-            }
-            
-            let request = buildRequestWithHeaders(for: url)
-            
-            URLSession.shared.dataTask(with: request) { data, res, err in
-                guard err == nil, let data = data,  let res = res as? HTTPURLResponse, res.statusCode == 200 else {
-                    return promise(.failure(URLError(.badServerResponse)))
-                }
-                
-                promise(.success(data))
-            }.resume()
-        }
-        .eraseToAnyPublisher()
-    }
-    
     func getCoinHistory(endpoint: Endpoint) -> AnyPublisher<HistoryResponse, Error> {
         Future { promise in
             guard let url = endpoint.url else {
@@ -122,6 +103,11 @@ struct CoinService {
     
     private func buildRequestWithHeaders(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
+        
+        /**
+            Rapid Api requires the api key to be sent through the request headers.
+         */
+        
         request.setValue(Secrets.apiKey, forHTTPHeaderField: "X-RapidAPI-Key")
         request.setValue(Secrets.apiHost, forHTTPHeaderField: "X-RapidAPI-Host")
         request.setValue("Content-Type", forHTTPHeaderField: "application/json")
