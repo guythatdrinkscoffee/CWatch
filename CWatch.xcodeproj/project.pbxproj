@@ -19,6 +19,7 @@
 		BE0A3BBD2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BBB2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift */; };
 		BE0A3BBF2941A4C4006C7997 /* CWDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BBE2941A4C4006C7997 /* CWDataStore.swift */; };
 		BE0A3BC12941A5AA006C7997 /* CWWatchlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BC02941A5AA006C7997 /* CWWatchlistManager.swift */; };
+		BE0A3BC529441D7D006C7997 /* Secrets_Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A3BC429441D7D006C7997 /* Secrets_Example.swift */; };
 		BE50A341294072EA008DF5D7 /* CWChartMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A340294072EA008DF5D7 /* CWChartMarker.swift */; };
 		BE50A34429407313008DF5D7 /* XAxisChartFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A34329407313008DF5D7 /* XAxisChartFormatter.swift */; };
 		BE50A3462940733A008DF5D7 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE50A3452940733A008DF5D7 /* String+Ext.swift */; };
@@ -58,6 +59,7 @@
 		BE0A3BBB2941A4A9006C7997 /* CWCoin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CWCoin+CoreDataProperties.swift"; path = "CWatch/Coredata/CWCoin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE0A3BBE2941A4C4006C7997 /* CWDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWDataStore.swift; sourceTree = "<group>"; };
 		BE0A3BC02941A5AA006C7997 /* CWWatchlistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWWatchlistManager.swift; sourceTree = "<group>"; };
+		BE0A3BC429441D7D006C7997 /* Secrets_Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets_Example.swift; sourceTree = "<group>"; };
 		BE50A340294072EA008DF5D7 /* CWChartMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CWChartMarker.swift; sourceTree = "<group>"; };
 		BE50A34329407313008DF5D7 /* XAxisChartFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XAxisChartFormatter.swift; sourceTree = "<group>"; };
 		BE50A3452940733A008DF5D7 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				BEC594A929386DCC007D68D6 /* Info.plist */,
 				BE8CB7212939BBE600A1BCAA /* coinhistory.json */,
 				BEC8639F293C3CD000A5BD12 /* coinresponse.json */,
+				BE0A3BC429441D7D006C7997 /* Secrets_Example.swift */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				BE02F782293FE00C0087E4F8 /* UIStackView+Ext.swift in Sources */,
 				BE66BD7C293942EE00BF8144 /* CWPaddedLabel.swift in Sources */,
 				BEC594C229392E0E007D68D6 /* CWCoinCell.swift in Sources */,
+				BE0A3BC529441D7D006C7997 /* Secrets_Example.swift in Sources */,
 				BE0A3BB92941A470006C7997 /* CWatch.xcdatamodeld in Sources */,
 				BEC594BD29388606007D68D6 /* CoinResponse.swift in Sources */,
 				BE8CB71E29398B8800A1BCAA /* CWCoinDetailScreen.swift in Sources */,
