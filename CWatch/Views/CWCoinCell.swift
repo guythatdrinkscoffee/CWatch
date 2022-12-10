@@ -147,7 +147,7 @@ class CWCoinCell: UITableViewCell {
 
 // MARK: - Configuration
 extension CWCoinCell {
-    public func configure(for coin: Coin?, formatter: NumberFormatter? = nil ) {
+    public func configure(for coin: Coin?, formatter: NumberFormatter? = nil , hideChart: Bool = false) {
         guard let coin = coin else { return }
         
         coinNameLabel.text = coin.name
@@ -155,23 +155,13 @@ extension CWCoinCell {
         coinPriceLabel.text = formatter?.string(from: coin.currentPrice as NSNumber)
         coinPriceLabel.textColor = setColor(bool: coin.priceChange > 0.0)
         coinPriceLabelContainer.backgroundColor = setColor(bool: coin.priceChange > 0.0, alpha: 0.15)
-        priceLabelsStackView.addArrangedSubview(UIView())
         
-        setData(for: coin)
+        if hideChart {
+            sparkLineChart.isHidden = hideChart
+        } else {
+            setData(for: coin)
+        }
         
-        layoutIfNeeded()
-    }
-    
-    public func configure(for cwCoin: CWCoin?, formatter: NumberFormatter? = nil) {
-        guard let coin = cwCoin else { return }
-        coinNameLabel.text = coin.name
-        coinTickerLabel.text = coin.symbol
-        coinPriceLabel.text = formatter?.string(from: coin.currentPrice as NSNumber)
-        coinPriceLabel.textColor = setColor(bool: coin.priceChange > 0.0)
-        coinPriceLabelContainer.backgroundColor = setColor(bool: coin.priceChange > 0.0, alpha: 0.15)
-        changeLabel.text = (cwCoin?.change ?? " ") + "%"
-        priceLabelsStackView.addArrangedSubview(changeLabel)
-        sparkLineChart.noDataText = " "
         layoutIfNeeded()
     }
 }

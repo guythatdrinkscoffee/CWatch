@@ -21,16 +21,27 @@ class CWWatchlistScreen: UIViewController {
     
     private var symbols: [String]? = []
     
+    private var pollTime = 15.0
+    
+    private var updatedCoins: [Coin] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.watchlistTableView.reloadData()
+            }
+ 
+        }
+    }
+    
     private lazy var numberFormatter : NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.minimumFractionDigits = 4
+        formatter.minimumFractionDigits = 2
         return formatter
     }()
     
     private lazy var fetchResultsController : NSFetchedResultsController<CWCoin> = {
         let fetchRequest : NSFetchRequest<CWCoin> = CWCoin.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = []
         
         let controller = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -72,12 +83,14 @@ class CWWatchlistScreen: UIViewController {
         
         // Fetch the watchlist
         fetch()
+        
+        //
+        fetchPrices()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        startPoll()
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -112,7 +125,7 @@ private extension CWWatchlistScreen {
             return
         }
         
-        timerCancellable = Timer.publish(every: 5, on: .current, in: .default)
+        timerCancellable = Timer.publish(every: pollTime, on: .current, in: .default)
             .autoconnect()
             .map({ (_) -> [String] in
                 return self.symbols ?? []
@@ -124,8 +137,9 @@ private extension CWWatchlistScreen {
                 
                 return self.coinService
                     .getCoins(endpoint: .coins(for: .now, uuids: symb))
+                    .receive(on: DispatchQueue.main)
                     .handleEvents(receiveOutput: { coinResp in
-                        self.watchlistManager.updateCoins(coinResp.data.coins ?? [])
+                        self.updatedCoins = coinResp.data.coins ?? []
                     })
                     .eraseToAnyPublisher()
             })
@@ -139,11 +153,15 @@ private extension CWWatchlistScreen {
         timerCancellable = nil
     }
     
-    private func configure(cell: UITableViewCell, for indexPath: IndexPath) {
-        guard let cell = cell as? CWCoinCell else { return }
-        
-        let coin = fetchResultsController.object(at: indexPath)
-        cell.configure(for: coin, formatter: numberFormatter)
+    private func fetchPrices() {
+        serviceCancellable =  self.coinService
+            .getCoins(endpoint: .coins(for: .now, uuids: self.symbols))
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+                self.startPoll()
+            }, receiveValue: { res in
+                self.updatedCoins = res.data.coins ?? []
+            })
     }
 }
 // MARK: - Configuration
@@ -172,16 +190,8 @@ extension CWWatchlistScreen: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 extension CWWatchlistScreen: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchResultsController.sections?.count ?? 0
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionInfo = fetchResultsController.sections?[section] else {
-            return 0
-        }
-        
-        return sectionInfo.numberOfObjects
+        return updatedCoins.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -189,7 +199,8 @@ extension CWWatchlistScreen: UITableViewDataSource {
             fatalError("failed to dequeue a table view cell")
         }
         
-        configure(cell: cell, for: indexPath)
+        let coin = updatedCoins[indexPath.row]
+        cell.configure(for: coin, formatter: numberFormatter, hideChart: true)
         
         return cell
     }

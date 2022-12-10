@@ -31,10 +31,6 @@ final class CWWatchlistManager {
     public func addToWatchlist(_ coin:  Coin) -> Future<Bool, WatchlistError> {
         let newCoin = CWCoin(context: dataStore.managedContext)
         newCoin.uuid = coin.uuid
-        newCoin.name = coin.name
-        newCoin.symbol = coin.symbol
-        newCoin.change = coin.change
-        newCoin.price = coin.price
         
         return Future { promise in
             do {
@@ -53,7 +49,7 @@ final class CWWatchlistManager {
         return Future { promise in
             do {
                 let ok = try self.dataStore.save()
-                promise(!ok ? .failure(.deleteError("Failed to remove \(coin.name) from your watchlist")) : .success(ok))
+                promise(!ok ? .failure(.deleteError("Failed to remove from your watchlist")) : .success(ok))
             } catch  {
                 print(error.localizedDescription)
                 promise(.failure(.deleteError(error.localizedDescription)))
@@ -73,7 +69,7 @@ final class CWWatchlistManager {
             
             do {
                 let ok = try self.dataStore.save()
-                promise(!ok ? .failure(.deleteError("Failed to remove \(coin.name) from your watchlist")) : .success(ok))
+                promise(!ok ? .failure(.deleteError("Failed to remove from your watchlist")) : .success(ok))
             } catch  {
                 print(error.localizedDescription)
                 promise(.failure(.deleteError(error.localizedDescription)))
@@ -99,26 +95,7 @@ final class CWWatchlistManager {
             return nil
         }
     }
-    
-    public func updateCoins(_ coins: [Coin]) {
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.userInfo[.managedObjectContext] = context
-        
-        context.perform {
-            do {
-                let coinData = try JSONEncoder().encode(coins)
-            
-                _ = try jsonDecoder.decode([CWCoin].self, from: coinData)
-                
-                try self.context.save()
-            } catch {
-                print(error.localizedDescription)
-                if self.context.hasChanges {
-                    self.context.rollback()
-                }
-            }
-        }
-    }
+
 }
 
 
