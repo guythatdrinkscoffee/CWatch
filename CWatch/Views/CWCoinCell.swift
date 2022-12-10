@@ -65,7 +65,7 @@ class CWCoinCell: UITableViewCell {
     }()
     
     private lazy var priceLabelsStackView : UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [UIView(),coinPriceLabelContainer])
+        let stackView = UIStackView(arrangedSubviews: [UIView(),coinPriceLabelContainer, changeLabel])
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         return stackView
@@ -155,11 +155,14 @@ extension CWCoinCell {
         coinPriceLabel.text = formatter?.string(from: coin.currentPrice as NSNumber)
         coinPriceLabel.textColor = setColor(bool: coin.priceChange > 0.0)
         coinPriceLabelContainer.backgroundColor = setColor(bool: coin.priceChange > 0.0, alpha: 0.15)
+        changeLabel.text = coin.change + "%"
         
         if hideChart {
             sparkLineChart.isHidden = hideChart
+            
         } else {
             setData(for: coin)
+            changeLabel.isHidden = true
         }
         
         layoutIfNeeded()
