@@ -112,7 +112,7 @@ private extension CWWatchlistScreen {
             return
         }
         
-        timerCancellable = Timer.publish(every: 10, on: .current, in: .default)
+        timerCancellable = Timer.publish(every: 5, on: .current, in: .default)
             .autoconnect()
             .map({ (_) -> [String] in
                 return self.symbols ?? []

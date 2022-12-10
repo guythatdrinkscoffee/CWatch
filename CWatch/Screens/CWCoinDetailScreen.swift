@@ -370,7 +370,7 @@ private extension CWCoinDetailScreen {
         
         // Add the rank info row
         addInfoRow(with: UIImage(systemName: "crown.fill"), title: "Rank", description: "#\(coin.rank)")
-        addInfoRow(with: UIImage(systemName: "chart.bar.fill"), title: "Market Cap", description: formatNumber(Int(coin.marketCap ?? "0.0")!))
+        addInfoRow(with: UIImage(systemName: "chart.bar.fill"), title: "Market Cap", description: formatNumber(Int(coin.marketCap)!))
         
         if let allTimeHigh = coin.allTimeHigh, let priceString = allTimeHigh.price {
             let price = Int(Double(priceString) ?? 0)
@@ -464,7 +464,9 @@ extension CWCoinDetailScreen {
         watchlistCancellable = watchlistManager
             .addToWatchlist(coin)
             .sink(receiveCompletion: { _ in
-                
+                DispatchQueue.main.async {
+                    self.removeFromWatchlistConfig()
+                }
             }, receiveValue: { successful in
                 if successful {
                     print("Added to watchlist!")
@@ -476,12 +478,14 @@ extension CWCoinDetailScreen {
     private func removeFromWatchlist(_ sender: UIBarButtonItem) {
         guard let coin = coin else { return }
         
-        let alertController = UIAlertController(title: "Remove from watchlist.", message: "Are you sure you want to remove \(coin.name ?? "") from your watchlist?", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "Remove from watchlist.", message: "Are you sure you want to remove \(coin.name ) from your watchlist?", preferredStyle: .actionSheet)
         let removeAction = UIAlertAction(title: "Remove", style: .destructive) { _ in
             self.watchlistCancellable = self.watchlistManager
                 .removeFromWatchlist(with: coin.uuid)
                 .sink(receiveCompletion: { completion in
-                    
+                    DispatchQueue.main.async {
+                        self.addToWatchlistConfig()
+                    }
                 }, receiveValue: { success in
                     if success {
                         print("Removed from watchlist.")
